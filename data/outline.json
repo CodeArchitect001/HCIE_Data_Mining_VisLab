@@ -4,8 +4,8 @@
     "version": "3.0",
     "source": "华为 HCIE-Big Data-Data Mining V3.0 培训教材 + 实验手册",
     "methodology": "MECE 原则",
-    "modules": 3,
-    "topics": 40
+    "modules": 9,
+    "topics": 80
   },
   "modules": [
     {
@@ -44,8 +44,101 @@
         { "id": "m3-s3", "title": "回归算法", "topics": [] },
         { "id": "m3-s4", "title": "集成算法", "topics": [] }
       ]
+    },
+    {
+      "id": "m4",
+      "chapter": "第四章",
+      "title": "聚类与降维问题建模",
+      "summary": "KMeans、层次聚类、DBSCAN、PCA、LDA 等无监督学习方法。",
+      "sections": [
+        { "id": "m4-s1", "title": "聚类算法", "topics": ["KMeans", "层次聚类", "DBSCAN", "BIRCH", "GMM", "谱聚类"] },
+        { "id": "m4-s2", "title": "降维算法", "topics": ["PCA", "LDA", "t-SNE"] },
+        { "id": "m4-s3", "title": "聚类评估", "topics": ["轮廓系数", "手肘法", "Silhouette Score"] }
+      ]
+    },
+    {
+      "id": "m5",
+      "chapter": "第五章",
+      "title": "关联分析与推荐问题建模",
+      "summary": "Apriori、FPGrowth 关联规则与协同过滤推荐系统。",
+      "sections": [
+        { "id": "m5-s1", "title": "关联规则", "topics": ["Apriori", "FPGrowth", "支持度", "置信度", "提升度"] },
+        { "id": "m5-s2", "title": "推荐系统", "topics": ["基于用户的协同过滤", "基于物品的协同过滤", "ALS"] }
+      ]
+    },
+    {
+      "id": "m6",
+      "chapter": "第六章",
+      "title": "模型评估与优化",
+      "summary": "交叉验证、网格搜索、模型融合与超参数调优。",
+      "sections": [
+        { "id": "m6-s1", "title": "模型评估", "topics": ["交叉验证", "混淆矩阵", "ROC-AUC", "F1-Score"] },
+        { "id": "m6-s2", "title": "模型优化", "topics": ["网格搜索", "随机搜索", "早停"] },
+        { "id": "m6-s3", "title": "模型融合", "topics": ["Voting", "Stacking", "Blending"] }
+      ]
+    },
+    {
+      "id": "m7",
+      "chapter": "第七章",
+      "title": "Python 数据挖掘案例分析",
+      "summary": "基于 Python 的综合实验：分类、回归、聚类、关联、推荐案例。",
+      "sections": [
+        { "id": "m7-s1", "title": "综合实验一：鱼的重量回归预测", "topics": [] },
+        { "id": "m7-s2", "title": "综合实验二：森林覆盖类型分类预测", "topics": [] },
+        { "id": "m7-s3", "title": "综合实验三：音乐流派聚类分析", "topics": [] },
+        { "id": "m7-s4", "title": "综合实验四：在线零售数据关联分析", "topics": [] },
+        { "id": "m7-s5", "title": "综合实验五：书籍推荐协同过滤分析", "topics": [] }
+      ]
+    },
+    {
+      "id": "m8",
+      "chapter": "第八章",
+      "title": "PySpark MLlib",
+      "summary": "基于 PySpark 的大数据挖掘：统计、预处理、分类、回归、聚类、关联、推荐。",
+      "sections": [
+        { "id": "m8-s1", "title": "PySpark MLlib 统计分析", "topics": [] },
+        { "id": "m8-s2", "title": "PySpark MLlib 数据预处理", "topics": [] },
+        { "id": "m8-s3", "title": "PySpark MLlib 房价预测", "topics": [] },
+        { "id": "m8-s4", "title": "PySpark MLlib 欺诈检测", "topics": [] },
+        { "id": "m8-s5", "title": "PySpark MLlib 客户流失预测", "topics": [] },
+        { "id": "m8-s6", "title": "PySpark MLlib 降维聚类分析", "topics": [] },
+        { "id": "m8-s7", "title": "PySpark MLlib 购物篮数据分析", "topics": [] },
+        { "id": "m8-s8", "title": "PySpark MLlib 协同过滤", "topics": [] }
+      ]
+    },
+    {
+      "id": "m9",
+      "chapter": "第九章",
+      "title": "华为大数据平台 MRS",
+      "summary": "MRS 数据湖、CDL、Hudi、HetuEngine 实时入湖与跨仓查询。",
+      "sections": [
+        { "id": "m9-s1", "title": "MRS 数据湖实验", "topics": ["CDL", "Hudi", "HetuEngine", "Spark SQL", "Flink SQL"] }
+      ]
     }
   ],
-  "experiments": [],
+  "experiments": [
+    { "id": "exp1", "title": "实验一：数据预处理与特征工程", "dataset": "Bike Sharing", "tools": ["Pandas", "NumPy", "Scikit-learn", "Seaborn"] },
+    { "id": "exp2", "title": "实验二：回归与分类问题建模", "dataset": "Bike Sharing / Iris", "tools": ["Scikit-learn"] },
+    { "id": "exp3", "title": "实验三：聚类与降维问题建模", "dataset": "Iris", "tools": ["Scikit-learn"] },
+    { "id": "exp4", "title": "实验四：关联分析与推荐问题建模", "dataset": "Groceries", "tools": ["mlxtend", "Scikit-learn"] },
+    { "id": "exp5", "title": "实验五：模型评估与优化", "dataset": "Iris", "tools": ["Scikit-learn"] },
+    { "id": "exp6", "title": "PySpark MLlib 统计分析", "dataset": "Synthetic", "tools": ["PySpark"] },
+    { "id": "exp7", "title": "PySpark MLlib 数据预处理", "dataset": "Synthetic", "tools": ["PySpark ML"] },
+    { "id": "exp8", "title": "PySpark MLlib 房价预测", "dataset": "Houses", "tools": ["PySpark MLlib"] },
+    { "id": "exp9", "title": "PySpark MLlib 欺诈检测", "dataset": "Credit Card", "tools": ["PySpark ML"] },
+    { "id": "exp10", "title": "PySpark MLlib 客户流失预测", "dataset": "Sparkify", "tools": ["PySpark ML"] },
+    { "id": "exp11", "title": "PySpark MLlib 降维聚类分析", "dataset": "Iris", "tools": ["PySpark ML"] },
+    { "id": "exp12", "title": "PySpark MLlib 购物篮数据分析", "dataset": "Basket", "tools": ["PySpark ML"] },
+    { "id": "exp13", "title": "PySpark MLlib 协同过滤", "dataset": "Amazon Reviews", "tools": ["PySpark ML"] },
+    { "id": "exp14", "title": "MRS 数据湖实验", "dataset": "MySQL -> Hudi", "tools": ["MRS", "CDL", "Hudi", "HetuEngine"] }
+  ],
+  "caseStudies": [
+    { "id": "case1", "title": "鱼的重量回归预测", "type": "回归", "algorithms": ["线性回归", "随机森林", "GBDT", "KNN", "决策树"] },
+    { "id": "case2", "title": "森林覆盖类型分类预测", "type": "分类", "algorithms": ["逻辑回归", "决策树", "随机森林", "GBDT", "XGBoost", "LightGBM", "SVM", "KNN", "Voting", "Stacking"] },
+    { "id": "case3", "title": "音乐流派聚类分析", "type": "聚类", "algorithms": ["KMeans", "BIRCH", "GMM", "谱聚类"] },
+    { "id": "case4", "title": "在线零售数据关联分析", "type": "关联规则", "algorithms": ["FPGrowth"] },
+    { "id": "case5", "title": "书籍推荐协同过滤分析", "type": "推荐", "algorithms": ["基于用户的协同过滤", "基于物品的协同过滤"] },
+    { "id": "case6", "title": "PySpark 广告推荐系统", "type": "推荐", "algorithms": ["ALS", "随机森林", "独热编码"] }
+  ],
   "formulas": []
 }

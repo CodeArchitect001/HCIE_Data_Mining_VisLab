@@ -23,6 +23,9 @@
                 <a href="#crispdm" class="nav-link">CRISP-DM</a>
                 <a href="#preprocessing" class="nav-link">预处理</a>
                 <a href="#modeling" class="nav-link">建模</a>
+                <a href="#clustering" class="nav-link">聚类降维</a>
+                <a href="#association" class="nav-link">关联推荐</a>
+                <a href="#evaluation" class="nav-link">评估优化</a>
                 <a href="#path" class="nav-link">学习路径</a>
             </nav>
             <button class="nav-toggle" id="navToggle" aria-label="切换导航">
@@ -213,6 +216,92 @@
             </div>
         </section>
 
+        <!-- 聚类与降维 -->
+        <section class="section clustering" id="clustering">
+            <div class="container">
+                <header class="section-header">
+                    <p class="eyebrow">第四章</p>
+                    <h2 class="section-title">聚类与降维问题建模</h2>
+                    <p class="section-desc">无监督学习核心方法：发现数据内在分组，降低特征维度。</p>
+                </header>
+                <div class="algo-grid">
+                    <article class="algo-card placeholder-card">KMeans</article>
+                    <article class="algo-card placeholder-card">层次聚类</article>
+                    <article class="algo-card placeholder-card">DBSCAN</article>
+                    <article class="algo-card placeholder-card">BIRCH</article>
+                    <article class="algo-card placeholder-card">GMM</article>
+                    <article class="algo-card placeholder-card">谱聚类</article>
+                    <article class="algo-card placeholder-card">PCA</article>
+                    <article class="algo-card placeholder-card">LDA</article>
+                </div>
+            </div>
+        </section>
+
+        <!-- 关联分析与推荐 -->
+        <section class="section association" id="association">
+            <div class="container">
+                <header class="section-header">
+                    <p class="eyebrow">第五章</p>
+                    <h2 class="section-title">关联分析与推荐问题建模</h2>
+                    <p class="section-desc">发现项间关联规则，基于用户/物品相似度构建推荐系统。</p>
+                </header>
+                <div class="pipeline">
+                    <div class="pipeline-step">
+                        <div class="step-card">
+                            <span class="step-icon">🛒</span>
+                            <h3>关联规则</h3>
+                            <p>Apriori、FPGrowth、支持度/置信度/提升度</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow"></div>
+                    <div class="pipeline-step">
+                        <div class="step-card">
+                            <span class="step-icon">👤</span>
+                            <h3>基于用户的协同过滤</h3>
+                            <p>寻找相似用户进行推荐</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow"></div>
+                    <div class="pipeline-step">
+                        <div class="step-card">
+                            <span class="step-icon">📦</span>
+                            <h3>基于物品的协同过滤</h3>
+                            <p>寻找相似物品进行推荐</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-arrow"></div>
+                    <div class="pipeline-step">
+                        <div class="step-card">
+                            <span class="step-icon">⭐</span>
+                            <h3>ALS 矩阵分解</h3>
+                            <p>PySpark 大规模隐语义推荐</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 模型评估与优化 -->
+        <section class="section evaluation" id="evaluation">
+            <div class="container">
+                <header class="section-header">
+                    <p class="eyebrow">第六章</p>
+                    <h2 class="section-title">模型评估与优化</h2>
+                    <p class="section-desc">交叉验证、超参数搜索与模型融合技术。</p>
+                </header>
+                <div class="algo-grid">
+                    <article class="algo-card placeholder-card">交叉验证</article>
+                    <article class="algo-card placeholder-card">网格搜索</article>
+                    <article class="algo-card placeholder-card">混淆矩阵</article>
+                    <article class="algo-card placeholder-card">ROC-AUC</article>
+                    <article class="algo-card placeholder-card">F1-Score</article>
+                    <article class="algo-card placeholder-card">Voting</article>
+                    <article class="algo-card placeholder-card">Stacking</article>
+                    <article class="algo-card placeholder-card">早停策略</article>
+                </div>
+            </div>
+        </section>
+
         <!-- 学习路径 -->
         <section class="section path" id="path">
             <div class="container">
@@ -240,14 +329,21 @@
                         <div class="timeline-marker">3</div>
                         <div class="timeline-content">
                             <h3>建模算法</h3>
-                            <p>分类、回归、基础概念</p>
+                            <p>分类、回归、聚类、降维、关联、推荐</p>
                         </div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-marker">4</div>
                         <div class="timeline-content">
-                            <h3>集成优化</h3>
-                            <p>Bagging、Boosting、Stacking、Voting</p>
+                            <h3>评估优化</h3>
+                            <p>交叉验证、网格搜索、模型融合</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">5</div>
+                        <div class="timeline-content">
+                            <h3>工程实战</h3>
+                            <p>Python 综合案例、PySpark MLlib、华为 MRS</p>
                         </div>
                     </div>
                 </div>
