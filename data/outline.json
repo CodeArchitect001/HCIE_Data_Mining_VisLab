@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "title": "HCIE-Big Data-Data Mining V3.0",
+    "version": "3.0",
+    "source": "华为 HCIE-Big Data-Data Mining V3.0 培训教材 + 实验手册",
+    "methodology": "MECE 原则",
+    "modules": 3,
+    "topics": 40
+  },
+  "modules": [
+    {
+      "id": "m1",
+      "chapter": "第一章",
+      "title": "数据挖掘介绍",
+      "summary": "数据挖掘概念、方法体系、开发工具链与 CRISP-DM 标准流程。",
+      "sections": [
+        { "id": "m1-s1", "title": "数据挖掘概述", "topics": [] },
+        { "id": "m1-s2", "title": "常用方法体系", "topics": [] },
+        { "id": "m1-s3", "title": "开发工具", "topics": [] },
+        { "id": "m1-s4", "title": "CRISP-DM 流程", "topics": [] }
+      ]
+    },
+    {
+      "id": "m2",
+      "chapter": "第二章",
+      "title": "数据预处理与特征工程",
+      "summary": "数据对象与属性、清洗、转换、描述可视化与特征工程。",
+      "sections": [
+        { "id": "m2-s1", "title": "数据预处理概述", "topics": [] },
+        { "id": "m2-s2", "title": "数据清洗", "topics": [] },
+        { "id": "m2-s3", "title": "数据转换", "topics": [] },
+        { "id": "m2-s4", "title": "数据描述与可视化", "topics": [] },
+        { "id": "m2-s5", "title": "特征工程", "topics": [] }
+      ]
+    },
+    {
+      "id": "m3",
+      "chapter": "第三章",
+      "title": "回归与分类问题建模",
+      "summary": "机器学习基础概念、分类算法、回归算法与集成算法。",
+      "sections": [
+        { "id": "m3-s1", "title": "基础概念框架", "topics": [] },
+        { "id": "m3-s2", "title": "分类算法", "topics": [] },
+        { "id": "m3-s3", "title": "回归算法", "topics": [] },
+        { "id": "m3-s4", "title": "集成算法", "topics": [] }
+      ]
+    }
+  ],
+  "experiments": [],
+  "formulas": []
+}
