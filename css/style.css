@@ -871,6 +871,454 @@ a {
     line-height: 1.7;
 }
 
+/* 第一章互动游戏 */
+.chapter1 {
+    background: var(--bg-secondary);
+}
+
+.game-frame {
+    background: var(--bg-primary);
+    border-radius: var(--radius-xl);
+    padding: 48px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+}
+
+.game-progress {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 48px;
+    position: relative;
+}
+
+.game-progress::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    right: 40px;
+    height: 2px;
+    background: var(--border);
+    z-index: 0;
+}
+
+.progress-step {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-primary);
+    padding: 0 12px;
+}
+
+.progress-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    transition: var(--transition);
+}
+
+.progress-step.active .progress-num,
+.progress-step.completed .progress-num {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.progress-step.completed .progress-num::after {
+    content: '✓';
+}
+
+.progress-step.completed .progress-num {
+    font-size: 0;
+}
+
+.progress-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.progress-step.active .progress-label,
+.progress-step.completed .progress-label {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.level {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.level.active {
+    display: block;
+}
+
+.level-intro {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.level-intro h3 {
+    font-size: 28px;
+    margin-bottom: 12px;
+}
+
+.level-intro p {
+    color: var(--text-secondary);
+    font-size: 16px;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.level-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 36px;
+}
+
+.level-feedback {
+    text-align: center;
+    min-height: 28px;
+    margin-top: 24px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.level-feedback.success {
+    color: #34c759;
+}
+
+.level-feedback.error {
+    color: #ff3b30;
+}
+
+/* 概念关系网 */
+.concept-map {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    border: 1px solid var(--border);
+}
+
+#conceptMapSvg {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 24px;
+}
+
+.concept-labels {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.concept-label {
+    padding: 12px 20px;
+    background: var(--bg-primary);
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: grab;
+    transition: var(--transition);
+    user-select: none;
+}
+
+.concept-label:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.concept-label.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+}
+
+.concept-label.placed {
+    border-style: solid;
+    border-color: #34c759;
+    color: #34c759;
+    background: rgba(52, 199, 89, 0.08);
+    cursor: default;
+}
+
+.concept-label.placed-wrong {
+    border-color: #ff3b30;
+    color: #ff3b30;
+    background: rgba(255, 59, 48, 0.08);
+    animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+/* 匹配游戏 */
+.matching-game {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.match-sources,
+.match-targets {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    border: 1px solid var(--border);
+}
+
+.match-sources h4,
+.match-targets h4 {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.match-card,
+.sort-card,
+.order-card {
+    padding: 14px 18px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: grab;
+    margin-bottom: 12px;
+    transition: var(--transition);
+    user-select: none;
+    text-align: center;
+}
+
+.match-card:hover,
+.sort-card:hover,
+.order-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.match-card.dragging,
+.sort-card.dragging,
+.order-card.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+}
+
+.match-card.matched {
+    background: rgba(52, 199, 89, 0.08);
+    border-color: #34c759;
+    color: #34c759;
+    cursor: default;
+}
+
+.match-slot {
+    padding: 18px;
+    background: var(--bg-primary);
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+    min-height: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.match-slot h4 {
+    margin: 0;
+}
+
+.match-slot small {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.match-slot.drag-over {
+    border-color: var(--accent);
+    background: var(--accent-light);
+}
+
+.match-slot.correct {
+    border-style: solid;
+    border-color: #34c759;
+    background: rgba(52, 199, 89, 0.08);
+}
+
+/* 分类游戏 */
+.sorting-game {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.sort-bins {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.sort-bin {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    border: 1px solid var(--border);
+    text-align: center;
+}
+
+.sort-bin h4 {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.sort-bin p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.bin-dropzone,
+.order-dropzone {
+    min-height: 80px;
+    background: var(--bg-primary);
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px;
+    gap: 8px;
+}
+
+.bin-dropzone.drag-over,
+.order-dropzone.drag-over {
+    border-color: var(--accent);
+    background: var(--accent-light);
+}
+
+.bin-dropzone.correct {
+    border-color: #34c759;
+    background: rgba(52, 199, 89, 0.08);
+}
+
+.sort-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    border: 1px solid var(--border);
+}
+
+.sort-card {
+    margin-bottom: 0;
+}
+
+.sort-card.in-bin {
+    width: 100%;
+}
+
+/* 排序游戏 */
+.ordering-game {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.order-slots {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+}
+
+.order-slot {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    padding: 16px 8px;
+    border: 1px solid var(--border);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.slot-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.order-dropzone {
+    width: 100%;
+    min-height: 72px;
+}
+
+.order-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    border: 1px solid var(--border);
+}
+
+.order-card {
+    margin-bottom: 0;
+}
+
+.order-card.in-slot {
+    width: 100%;
+}
+
+.order-slot.correct .order-dropzone {
+    border-color: #34c759;
+    background: rgba(52, 199, 89, 0.08);
+}
+
+.order-slot.wrong .slot-num {
+    color: #ff3b30;
+    border-color: #ff3b30;
+}
+
 /* Footer */
 .footer {
     background: var(--bg-secondary);
@@ -952,6 +1400,31 @@ a {
         border: 5px solid transparent;
         border-top-color: var(--border);
         border-left-color: transparent;
+    }
+
+    .game-frame {
+        padding: 28px;
+    }
+
+    .matching-game {
+        grid-template-columns: 1fr;
+    }
+
+    .sort-bins {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .order-slots {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .concept-labels {
+        gap: 8px;
+    }
+
+    .concept-label {
+        padding: 10px 14px;
+        font-size: 13px;
     }
 }
 
@@ -1035,5 +1508,33 @@ a {
 
     #heroSvg {
         transform: scale(0.65);
+    }
+
+    .game-frame {
+        padding: 20px;
+    }
+
+    .game-progress {
+        gap: 8px;
+    }
+
+    .progress-label {
+        font-size: 11px;
+    }
+
+    .sort-bins {
+        grid-template-columns: 1fr;
+    }
+
+    .order-slots {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .level-actions {
+        flex-direction: column;
+    }
+
+    .level-actions .btn {
+        width: 100%;
     }
 }

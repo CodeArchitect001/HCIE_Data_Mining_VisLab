@@ -20,6 +20,7 @@
             </a>
             <nav class="nav-menu" id="navMenu">
                 <a href="#overview" class="nav-link">总览</a>
+                <a href="#chapter1" class="nav-link">第一章</a>
                 <a href="#crispdm" class="nav-link">CRISP-DM</a>
                 <a href="#preprocessing" class="nav-link">预处理</a>
                 <a href="#modeling" class="nav-link">建模</a>
@@ -59,6 +60,185 @@
                 </div>
                 <div class="hero-visual" id="heroVisual">
                     <svg id="heroSvg" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%;display:block;"></svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第一章：数据挖掘互动探险 -->
+        <section class="section chapter1" id="chapter1">
+            <div class="container">
+                <header class="section-header">
+                    <p class="eyebrow">第一章 · 数据挖掘介绍</p>
+                    <h2 class="section-title">数据挖掘互动探险</h2>
+                    <p class="section-desc">通过四个互动关卡，把数据挖掘的概念、场景、方法体系和项目流程玩明白。</p>
+                </header>
+
+                <div class="game-frame" id="chapter1Game">
+                    <div class="game-progress">
+                        <div class="progress-step active" data-step="1">
+                            <span class="progress-num">1</span>
+                            <span class="progress-label">概念关系网</span>
+                        </div>
+                        <div class="progress-step" data-step="2">
+                            <span class="progress-num">2</span>
+                            <span class="progress-label">场景侦探</span>
+                        </div>
+                        <div class="progress-step" data-step="3">
+                            <span class="progress-num">3</span>
+                            <span class="progress-label">方法分类</span>
+                        </div>
+                        <div class="progress-step" data-step="4">
+                            <span class="progress-num">4</span>
+                            <span class="progress-label">流程接力</span>
+                        </div>
+                    </div>
+
+                    <!-- 关卡 1：概念关系网 -->
+                    <div class="level active" data-level="1">
+                        <div class="level-intro">
+                            <h3>概念关系网</h3>
+                            <p>数据挖掘与大数据、数据分析、机器学习、人工智能之间是什么关系？点击中心与周围的节点，拖拽下方的关系标签到正确的连线上。</p>
+                        </div>
+                        <div class="concept-map" id="conceptMap">
+                            <svg id="conceptMapSvg" viewBox="0 0 720 360" preserveAspectRatio="xMidYMid meet"></svg>
+                            <div class="concept-labels" id="conceptLabels">
+                                <div class="concept-label" draggable="true" data-target="bigdata">数据基础与处理对象</div>
+                                <div class="concept-label" draggable="true" data-target="analysis">前置步骤与子集</div>
+                                <div class="concept-label" draggable="true" data-target="ml">核心技术手段</div>
+                                <div class="concept-label" draggable="true" data-target="ai">上层应用领域</div>
+                            </div>
+                        </div>
+                        <div class="level-feedback" id="level1Feedback"></div>
+                        <div class="level-actions">
+                            <button class="btn btn-secondary" id="resetLevel1">重置</button>
+                            <button class="btn btn-primary" id="nextLevel1" disabled>下一关</button>
+                        </div>
+                    </div>
+
+                    <!-- 关卡 2：场景侦探 -->
+                    <div class="level" data-level="2">
+                        <div class="level-intro">
+                            <h3>场景侦探</h3>
+                            <p>把左侧的行业场景拖到右侧对应的常用方法/算法上。全部匹配正确即可通关。</p>
+                        </div>
+                        <div class="matching-game" id="scenarioMatch">
+                            <div class="match-sources">
+                                <h4>行业场景</h4>
+                                <div class="match-card" draggable="true" data-match="classification">金融信用评分</div>
+                                <div class="match-card" draggable="true" data-match="clustering">警务嫌疑人画像</div>
+                                <div class="match-card" draggable="true" data-match="regression">数字政府政策效果评估</div>
+                                <div class="match-card" draggable="true" data-match="anomaly">智慧园区安防预警</div>
+                                <div class="match-card" draggable="true" data-match="recommendation">电商商品推荐</div>
+                            </div>
+                            <div class="match-targets">
+                                <h4>常用方法</h4>
+                                <div class="match-slot" data-accept="classification">分类算法<br><small>预测离散标签</small></div>
+                                <div class="match-slot" data-accept="regression">回归算法<br><small>预测连续数值</small></div>
+                                <div class="match-slot" data-accept="clustering">聚类分析<br><small>发现内在分组</small></div>
+                                <div class="match-slot" data-accept="recommendation">推荐系统<br><small>个性化推荐</small></div>
+                                <div class="match-slot" data-accept="anomaly">异常检测<br><small>识别离群模式</small></div>
+                            </div>
+                        </div>
+                        <div class="level-feedback" id="level2Feedback"></div>
+                        <div class="level-actions">
+                            <button class="btn btn-secondary" id="resetLevel2">重置</button>
+                            <button class="btn btn-primary" id="nextLevel2" disabled>下一关</button>
+                        </div>
+                    </div>
+
+                    <!-- 关卡 3：方法分类 -->
+                    <div class="level" data-level="3">
+                        <div class="level-intro">
+                            <h3>方法分类大作战</h3>
+                            <p>把下方的学习方法卡片拖进对应的学习范式篮子中，MECE 分类是否正确由你验证。</p>
+                        </div>
+                        <div class="sorting-game" id="methodSort">
+                            <div class="sort-bins">
+                                <div class="sort-bin" data-bin="supervised">
+                                    <h4>监督学习</h4>
+                                    <p>有标签数据</p>
+                                    <div class="bin-dropzone"></div>
+                                </div>
+                                <div class="sort-bin" data-bin="unsupervised">
+                                    <h4>无监督学习</h4>
+                                    <p>无标签数据</p>
+                                    <div class="bin-dropzone"></div>
+                                </div>
+                                <div class="sort-bin" data-bin="semisupervised">
+                                    <h4>半监督学习</h4>
+                                    <p>少量标签 + 大量未标注</p>
+                                    <div class="bin-dropzone"></div>
+                                </div>
+                                <div class="sort-bin" data-bin="reinforcement">
+                                    <h4>强化学习</h4>
+                                    <p>环境反馈奖励/惩罚</p>
+                                    <div class="bin-dropzone"></div>
+                                </div>
+                            </div>
+                            <div class="sort-items" id="sortItems">
+                                <div class="sort-card" draggable="true" data-bin="supervised">分类</div>
+                                <div class="sort-card" draggable="true" data-bin="supervised">回归</div>
+                                <div class="sort-card" draggable="true" data-bin="unsupervised">聚类</div>
+                                <div class="sort-card" draggable="true" data-bin="unsupervised">关联规则</div>
+                                <div class="sort-card" draggable="true" data-bin="semisupervised">利用少量标注数据</div>
+                                <div class="sort-card" draggable="true" data-bin="reinforcement">奖励信号学习策略</div>
+                            </div>
+                        </div>
+                        <div class="level-feedback" id="level3Feedback"></div>
+                        <div class="level-actions">
+                            <button class="btn btn-secondary" id="resetLevel3">重置</button>
+                            <button class="btn btn-primary" id="nextLevel3" disabled>下一关</button>
+                        </div>
+                    </div>
+
+                    <!-- 关卡 4：CRISP-DM 流程接力 -->
+                    <div class="level" data-level="4">
+                        <div class="level-intro">
+                            <h3>CRISP-DM 流程接力</h3>
+                            <p>CRISP-DM 是数据挖掘项目的标准方法论。拖拽下方六个阶段卡片，按正确顺序排列。</p>
+                        </div>
+                        <div class="ordering-game" id="crispdmOrder">
+                            <div class="order-slots" id="orderSlots">
+                                <div class="order-slot" data-order="0" data-expected="business">
+                                    <span class="slot-num">1</span>
+                                    <div class="order-dropzone"></div>
+                                </div>
+                                <div class="order-slot" data-order="1" data-expected="data_understanding">
+                                    <span class="slot-num">2</span>
+                                    <div class="order-dropzone"></div>
+                                </div>
+                                <div class="order-slot" data-order="2" data-expected="preparation">
+                                    <span class="slot-num">3</span>
+                                    <div class="order-dropzone"></div>
+                                </div>
+                                <div class="order-slot" data-order="3" data-expected="modeling">
+                                    <span class="slot-num">4</span>
+                                    <div class="order-dropzone"></div>
+                                </div>
+                                <div class="order-slot" data-order="4" data-expected="evaluation">
+                                    <span class="slot-num">5</span>
+                                    <div class="order-dropzone"></div>
+                                </div>
+                                <div class="order-slot" data-order="5" data-expected="deployment">
+                                    <span class="slot-num">6</span>
+                                    <div class="order-dropzone"></div>
+                                </div>
+                            </div>
+                            <div class="order-cards" id="orderCards">
+                                <div class="order-card" draggable="true" data-stage="business">商业理解</div>
+                                <div class="order-card" draggable="true" data-stage="data_understanding">数据理解</div>
+                                <div class="order-card" draggable="true" data-stage="preparation">数据准备</div>
+                                <div class="order-card" draggable="true" data-stage="modeling">建模</div>
+                                <div class="order-card" draggable="true" data-stage="evaluation">评估</div>
+                                <div class="order-card" draggable="true" data-stage="deployment">模型实施</div>
+                            </div>
+                        </div>
+                        <div class="level-feedback" id="level4Feedback"></div>
+                        <div class="level-actions">
+                            <button class="btn btn-secondary" id="resetLevel4">重置</button>
+                            <button class="btn btn-primary" id="finishChapter1">完成第一章</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

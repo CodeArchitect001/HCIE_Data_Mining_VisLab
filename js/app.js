@@ -1679,12 +1679,439 @@
         }
     }
 
+    // 第一章互动游戏
+    function initChapter1Game() {
+        const game = document.getElementById('chapter1Game');
+        if (!game) return;
+
+        const levels = game.querySelectorAll('.level');
+        const progressSteps = game.querySelectorAll('.progress-step');
+        let currentLevel = 1;
+
+        function showLevel(n) {
+            levels.forEach(l => l.classList.remove('active'));
+            progressSteps.forEach(p => {
+                const step = parseInt(p.dataset.step, 10);
+                p.classList.remove('active', 'completed');
+                if (step < n) p.classList.add('completed');
+                if (step === n) p.classList.add('active');
+            });
+            const target = game.querySelector('.level[data-level="' + n + '"]');
+            if (target) target.classList.add('active');
+            currentLevel = n;
+        }
+
+        function bindNext(btnId, nextLevel) {
+            const btn = document.getElementById(btnId);
+            if (btn) btn.addEventListener('click', () => showLevel(nextLevel));
+        }
+
+        bindNext('nextLevel1', 2);
+        bindNext('nextLevel2', 3);
+        bindNext('nextLevel3', 4);
+
+        const finishBtn = document.getElementById('finishChapter1');
+        if (finishBtn) {
+            finishBtn.addEventListener('click', () => {
+                const fb = document.getElementById('level4Feedback');
+                if (fb) {
+                    fb.textContent = '🎉 恭喜完成第一章！你已掌握数据挖掘的概念、场景、方法与流程。';
+                    fb.classList.add('success');
+                }
+                progressSteps.forEach(p => {
+                    const step = parseInt(p.dataset.step, 10);
+                    if (step === 4) p.classList.add('completed');
+                });
+            });
+        }
+
+        initConceptMap();
+        initScenarioMatch();
+        initMethodSort();
+        initCrispdmOrder();
+    }
+
+    function initConceptMap() {
+        const svg = document.getElementById('conceptMapSvg');
+        if (!svg) return;
+
+        const ns = 'http://www.w3.org/2000/svg';
+        const width = 720;
+        const height = 360;
+        const cx = width / 2;
+        const cy = height / 2;
+        const radius = 130;
+
+        const nodes = [
+            { id: 'root', label: '数据挖掘', x: cx, y: cy, r: 46, fill: '#0071e3' },
+            { id: 'bigdata', label: '大数据', x: cx, y: cy - radius, r: 34, fill: '#7c4dff' },
+            { id: 'analysis', label: '数据分析', x: cx + radius * 0.95, y: cy - radius * 0.3, r: 34, fill: '#7c4dff' },
+            { id: 'ml', label: '机器学习', x: cx + radius * 0.6, y: cy + radius * 0.85, r: 34, fill: '#7c4dff' },
+            { id: 'ai', label: '人工智能', x: cx - radius * 0.6, y: cy + radius * 0.85, r: 34, fill: '#7c4dff' }
+        ];
+
+        // Links
+        nodes.slice(1).forEach(n => {
+            const line = document.createElementNS(ns, 'line');
+            line.setAttribute('x1', cx);
+            line.setAttribute('y1', cy);
+            line.setAttribute('x2', n.x);
+            line.setAttribute('y2', n.y);
+            line.setAttribute('stroke', 'rgba(0,0,0,0.1)');
+            line.setAttribute('stroke-width', '2');
+            line.setAttribute('class', 'concept-link');
+            line.dataset.target = n.id;
+            svg.appendChild(line);
+        });
+
+        nodes.forEach(n => {
+            const g = document.createElementNS(ns, 'g');
+            g.setAttribute('class', 'concept-node');
+            g.style.cursor = 'pointer';
+
+            const circle = document.createElementNS(ns, 'circle');
+            circle.setAttribute('cx', n.x);
+            circle.setAttribute('cy', n.y);
+            circle.setAttribute('r', n.r);
+            circle.setAttribute('fill', n.fill);
+            circle.setAttribute('opacity', '0.12');
+            circle.setAttribute('stroke', n.fill);
+            circle.setAttribute('stroke-width', '2');
+            g.appendChild(circle);
+
+            const text = document.createElementNS(ns, 'text');
+            text.setAttribute('x', n.x);
+            text.setAttribute('y', n.y);
+            text.setAttribute('text-anchor', 'middle');
+            text.setAttribute('dominant-baseline', 'central');
+            text.setAttribute('fill', n.fill);
+            text.setAttribute('font-size', n.id === 'root' ? '16' : '14');
+            text.setAttribute('font-weight', '600');
+            text.textContent = n.label;
+            g.appendChild(text);
+
+            if (n.id !== 'root') {
+                g.addEventListener('click', () => {
+                    showConceptTip(n.id);
+                });
+            }
+
+            svg.appendChild(g);
+        });
+
+        const tips = {
+            bigdata: '大数据：Volume / Velocity / Variety / Value，是数据挖掘的数据基础和处理对象。',
+            analysis: '数据分析：用统计方法描述、探索和验证数据，是数据挖掘的前置步骤和子集。',
+            ml: '机器学习：让计算机通过数据自动改进性能，是数据挖掘的核心技术手段。',
+            ai: '人工智能：使机器模拟人类智能，数据挖掘是 AI 在数据分析领域的具体应用。'
+        };
+
+        function showConceptTip(id) {
+            const fb = document.getElementById('level1Feedback');
+            if (fb) {
+                fb.textContent = tips[id] || '';
+                fb.className = 'level-feedback';
+            }
+        }
+
+        // Drag-drop labels onto links
+        const labels = document.querySelectorAll('.concept-label');
+        let dragged = null;
+        const placed = new Set();
+
+        labels.forEach(label => {
+            label.addEventListener('dragstart', e => {
+                dragged = label;
+                label.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', label.dataset.target);
+            });
+            label.addEventListener('dragend', () => {
+                label.classList.remove('dragging');
+                dragged = null;
+            });
+        });
+
+        svg.addEventListener('dragover', e => e.preventDefault());
+        svg.addEventListener('drop', e => {
+            e.preventDefault();
+            if (!dragged) return;
+            const rect = svg.getBoundingClientRect();
+            const x = (e.clientX - rect.left) * (720 / rect.width);
+            const y = (e.clientY - rect.top) * (360 / rect.height);
+
+            // Find nearest non-root node
+            let nearest = null;
+            let minDist = Infinity;
+            nodes.slice(1).forEach(n => {
+                const d = Math.hypot(n.x - x, n.y - y);
+                if (d < minDist) {
+                    minDist = d;
+                    nearest = n;
+                }
+            });
+
+            if (nearest && minDist < 50 && dragged.dataset.target === nearest.id) {
+                if (!placed.has(nearest.id)) {
+                    placed.add(nearest.id);
+                    dragged.classList.add('placed');
+                    dragged.setAttribute('draggable', 'false');
+                    // Highlight link
+                    const link = svg.querySelector('.concept-link[data-target="' + nearest.id + '"]');
+                    if (link) {
+                        link.setAttribute('stroke', '#34c759');
+                        link.setAttribute('stroke-width', '3');
+                    }
+                }
+                const fb = document.getElementById('level1Feedback');
+                fb.textContent = '正确！' + tips[nearest.id];
+                fb.className = 'level-feedback success';
+                if (placed.size === 4) {
+                    document.getElementById('nextLevel1').disabled = false;
+                    fb.textContent = '🎉 关系网已全部理清！数据挖掘是以大数据为基础，用机器学习技术，从数据分析中提取知识，最终服务于人工智能应用。';
+                }
+            } else {
+                dragged.classList.add('placed-wrong');
+                setTimeout(() => dragged.classList.remove('placed-wrong'), 600);
+                const fb = document.getElementById('level1Feedback');
+                fb.textContent = '位置不对哦，再想想这个关系标签属于哪个概念。';
+                fb.className = 'level-feedback error';
+            }
+        });
+
+        document.getElementById('resetLevel1').addEventListener('click', () => {
+            placed.clear();
+            labels.forEach(l => {
+                l.classList.remove('placed', 'placed-wrong');
+                l.setAttribute('draggable', 'true');
+            });
+            svg.querySelectorAll('.concept-link').forEach(l => {
+                l.setAttribute('stroke', 'rgba(0,0,0,0.1)');
+                l.setAttribute('stroke-width', '2');
+            });
+            const fb = document.getElementById('level1Feedback');
+            fb.textContent = '';
+            fb.className = 'level-feedback';
+            document.getElementById('nextLevel1').disabled = true;
+        });
+    }
+
+    function initScenarioMatch() {
+        const container = document.getElementById('scenarioMatch');
+        if (!container) return;
+
+        const cards = container.querySelectorAll('.match-card');
+        const slots = container.querySelectorAll('.match-slot');
+        let matchedCount = 0;
+        let dragged = null;
+
+        cards.forEach(card => {
+            card.addEventListener('dragstart', e => {
+                dragged = card;
+                card.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', card.dataset.match);
+            });
+            card.addEventListener('dragend', () => {
+                card.classList.remove('dragging');
+                dragged = null;
+            });
+        });
+
+        slots.forEach(slot => {
+            slot.addEventListener('dragover', e => {
+                e.preventDefault();
+                slot.classList.add('drag-over');
+            });
+            slot.addEventListener('dragleave', () => slot.classList.remove('drag-over'));
+            slot.addEventListener('drop', e => {
+                e.preventDefault();
+                slot.classList.remove('drag-over');
+                if (!dragged) return;
+                if (dragged.dataset.match === slot.dataset.accept && !slot.classList.contains('correct')) {
+                    dragged.classList.add('matched');
+                    dragged.setAttribute('draggable', 'false');
+                    slot.classList.add('correct');
+                    slot.appendChild(dragged);
+                    matchedCount++;
+                    const fb = document.getElementById('level2Feedback');
+                    fb.textContent = '匹配正确！';
+                    fb.className = 'level-feedback success';
+                    if (matchedCount === 5) {
+                        document.getElementById('nextLevel2').disabled = false;
+                        fb.textContent = '🎉 所有场景都已匹配正确！不同问题需要不同的数据挖掘方法。';
+                    }
+                } else if (!slot.classList.contains('correct')) {
+                    const fb = document.getElementById('level2Feedback');
+                    fb.textContent = '这个场景更适合其他方法，再试试看。';
+                    fb.className = 'level-feedback error';
+                }
+            });
+        });
+
+        document.getElementById('resetLevel2').addEventListener('click', () => {
+            const sources = container.querySelector('.match-sources');
+            cards.forEach(c => {
+                c.classList.remove('matched');
+                c.setAttribute('draggable', 'true');
+                sources.appendChild(c);
+            });
+            slots.forEach(s => s.classList.remove('correct'));
+            matchedCount = 0;
+            const fb = document.getElementById('level2Feedback');
+            fb.textContent = '';
+            fb.className = 'level-feedback';
+            document.getElementById('nextLevel2').disabled = true;
+        });
+    }
+
+    function initMethodSort() {
+        const container = document.getElementById('methodSort');
+        if (!container) return;
+
+        const items = container.querySelectorAll('.sort-card');
+        const bins = container.querySelectorAll('.sort-bin');
+        const zones = container.querySelectorAll('.bin-dropzone');
+        let correctCount = 0;
+        let dragged = null;
+
+        items.forEach(item => {
+            item.addEventListener('dragstart', e => {
+                dragged = item;
+                item.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', item.dataset.bin);
+            });
+            item.addEventListener('dragend', () => {
+                item.classList.remove('dragging');
+                dragged = null;
+            });
+        });
+
+        zones.forEach(zone => {
+            zone.addEventListener('dragover', e => {
+                e.preventDefault();
+                zone.classList.add('drag-over');
+            });
+            zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                zone.classList.remove('drag-over');
+                if (!dragged) return;
+                const bin = zone.closest('.sort-bin').dataset.bin;
+                const fb = document.getElementById('level3Feedback');
+                if (dragged.dataset.bin === bin) {
+                    if (!dragged.classList.contains('in-bin')) correctCount++;
+                    dragged.classList.add('in-bin');
+                    dragged.setAttribute('draggable', 'false');
+                    zone.appendChild(dragged);
+                    zone.classList.add('correct');
+                    fb.textContent = '分类正确！';
+                    fb.className = 'level-feedback success';
+                    if (correctCount === items.length) {
+                        document.getElementById('nextLevel3').disabled = false;
+                        fb.textContent = '🎉 全部分类正确！监督/无监督/半监督/强化学习四大范式已掌握。';
+                    }
+                } else {
+                    fb.textContent = '放错篮子了，注意这个方法是根据是否有标签来分类的。';
+                    fb.className = 'level-feedback error';
+                }
+            });
+        });
+
+        document.getElementById('resetLevel3').addEventListener('click', () => {
+            const pool = document.getElementById('sortItems');
+            items.forEach(i => {
+                i.classList.remove('in-bin');
+                i.setAttribute('draggable', 'true');
+                pool.appendChild(i);
+            });
+            zones.forEach(z => z.classList.remove('correct'));
+            correctCount = 0;
+            const fb = document.getElementById('level3Feedback');
+            fb.textContent = '';
+            fb.className = 'level-feedback';
+            document.getElementById('nextLevel3').disabled = true;
+        });
+    }
+
+    function initCrispdmOrder() {
+        const container = document.getElementById('crispdmOrder');
+        if (!container) return;
+
+        const cards = container.querySelectorAll('.order-card');
+        const slots = container.querySelectorAll('.order-slot');
+        const zones = container.querySelectorAll('.order-dropzone');
+        let placedCount = 0;
+        let dragged = null;
+
+        cards.forEach(card => {
+            card.addEventListener('dragstart', e => {
+                dragged = card;
+                card.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', card.dataset.stage);
+            });
+            card.addEventListener('dragend', () => {
+                card.classList.remove('dragging');
+                dragged = null;
+            });
+        });
+
+        zones.forEach(zone => {
+            zone.addEventListener('dragover', e => {
+                e.preventDefault();
+                zone.classList.add('drag-over');
+            });
+            zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                zone.classList.remove('drag-over');
+                if (!dragged) return;
+                const slot = zone.closest('.order-slot');
+                const expected = slot.dataset.expected;
+                const fb = document.getElementById('level4Feedback');
+                if (dragged.dataset.stage === expected) {
+                    if (!dragged.classList.contains('in-slot')) placedCount++;
+                    dragged.classList.add('in-slot');
+                    dragged.setAttribute('draggable', 'false');
+                    slot.classList.add('correct');
+                    slot.classList.remove('wrong');
+                    zone.appendChild(dragged);
+                    fb.textContent = '顺序正确！';
+                    fb.className = 'level-feedback success';
+                    if (placedCount === 6) {
+                        fb.textContent = '🎉 流程接力完成！CRISP-DM 六阶段环环相扣，评估结果还会反馈迭代。';
+                    }
+                } else {
+                    slot.classList.add('wrong');
+                    setTimeout(() => slot.classList.remove('wrong'), 600);
+                    fb.textContent = '这个阶段不该出现在这里，想想项目实际是怎么推进的。';
+                    fb.className = 'level-feedback error';
+                }
+            });
+        });
+
+        document.getElementById('resetLevel4').addEventListener('click', () => {
+            const pool = document.getElementById('orderCards');
+            cards.forEach(c => {
+                c.classList.remove('in-slot');
+                c.setAttribute('draggable', 'true');
+                pool.appendChild(c);
+            });
+            slots.forEach(s => {
+                s.classList.remove('correct', 'wrong');
+            });
+            placedCount = 0;
+            const fb = document.getElementById('level4Feedback');
+            fb.textContent = '';
+            fb.className = 'level-feedback';
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         setStage(0);
         renderAll();
         initReveal();
         initHeroGraph();
         initCrispDmDiagram();
+        initChapter1Game();
 
         // 定义 revealed 样式
         const style = document.createElement('style');
