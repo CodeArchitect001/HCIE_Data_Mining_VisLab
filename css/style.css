@@ -267,101 +267,71 @@ a {
     transform: translateY(-1px);
 }
 
-/* Hero 视觉占位 */
+/* Hero SVG graph */
 .hero-visual {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.placeholder-visual {
-    position: relative;
-    width: 420px;
-    height: 420px;
+#heroSvg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
 }
 
-.node {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.86);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-md);
-    font-weight: 500;
-    animation: float 5s ease-in-out infinite;
-    animation-delay: var(--delay, 0s);
+.hero-node {
+    transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
-.node-lg {
-    width: 160px;
-    height: 64px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 18px;
-    z-index: 2;
+.hero-node-circle {
+    transition: r 0.35s ease, fill-opacity 0.35s ease, stroke-opacity 0.35s ease;
 }
 
-.node-md {
-    width: 120px;
-    height: 52px;
-    font-size: 15px;
+.hero-node:hover .hero-node-circle {
+    filter: drop-shadow(0 0 8px rgba(0, 113, 227, 0.45));
+    r: calc(var(--r, 20) + 4px);
 }
 
-.node-md:nth-of-type(2) {
-    top: 20%;
-    left: 20%;
+.hero-link {
+    transition: stroke-opacity 0.35s ease, stroke-width 0.35s ease;
 }
 
-.node-md:nth-of-type(3) {
-    top: 20%;
-    right: 20%;
+/* CRISP-DM circular diagram */
+#crispdmSvg {
+    overflow: visible;
 }
 
-.node-sm {
-    width: 90px;
-    height: 42px;
-    font-size: 13px;
-    color: var(--text-secondary);
+.crispdm-node {
+    transition: transform 0.3s ease;
 }
 
-.node-sm:nth-of-type(4) {
-    bottom: 22%;
-    left: 14%;
+.crispdm-node:hover {
+    transform: scale(1.1);
 }
 
-.node-sm:nth-of-type(5) {
-    bottom: 18%;
-    left: 50%;
-    transform: translateX(-50%);
+.crispdm-node-circle {
+    transition: fill 0.4s ease, stroke 0.4s ease;
 }
 
-.node-sm:nth-of-type(6) {
-    bottom: 22%;
-    right: 14%;
+.crispdm-node-text {
+    transition: fill 0.4s ease;
 }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+.crispdm-label {
+    transition: fill 0.4s ease, font-weight 0.4s ease;
 }
 
-.node-lg {
-    animation: none;
+.crispdm-path {
+    transition: opacity 0.4s ease;
+    opacity: 0;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 0;
 }
 
-.node-md:nth-of-type(2),
-.node-sm:nth-of-type(4),
-.node-sm:nth-of-type(5) {
-    animation-delay: var(--delay, 0s);
-}
-
-.node-md:nth-of-type(3),
-.node-sm:nth-of-type(6) {
-    animation-delay: calc(var(--delay, 0s) + 0.3s);
+/* Smooth transitions for graph interactions */
+.hero-node, .crispdm-node, .hero-link, .crispdm-path, .crispdm-node-circle, .crispdm-node-text, .crispdm-label {
+    will-change: transform, opacity, fill, stroke;
 }
 
 /* 知识网格 */
@@ -944,6 +914,10 @@ a {
         transform: scale(0.85);
     }
 
+    #heroSvg {
+        transform: scale(0.85);
+    }
+
     .knowledge-grid {
         grid-template-columns: 1fr;
     }
@@ -1056,6 +1030,10 @@ a {
     }
 
     .placeholder-visual {
+        transform: scale(0.65);
+    }
+
+    #heroSvg {
         transform: scale(0.65);
     }
 }

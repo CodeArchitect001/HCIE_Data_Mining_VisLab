@@ -12,8 +12,1041 @@
     const tabPanels = document.querySelectorAll('.tab-panel');
     const knowledgeGrid = document.getElementById('knowledgeGrid');
 
-    // 全局数据缓存
-    let outlineData = null;
+    const outlineData = {
+  "meta": {
+    "title": "HCIE-Big Data-Data Mining V3.0 知识大纲",
+    "version": "V3.0",
+    "source": "华为HCIE-Big Data-Data Mining V3.0培训教材 + 实验手册",
+    "methodology": "MECE原则（Mutually Exclusive, Collectively Exhaustive）",
+    "modulesCount": 3,
+    "topicsCount": 40
+  },
+  "modules": [
+    {
+      "id": "m1",
+      "chapter": "第一章",
+      "title": "数据挖掘介绍",
+      "summary": "系统介绍数据挖掘的定义、边界、常用方法体系、开发工具链以及CRISP-DM标准流程，建立数据挖掘的整体认知框架。",
+      "sections": [
+        {
+          "id": "m1-s1",
+          "title": "数据挖掘概述",
+          "topics": [
+            "数据挖掘定义：从大量、不完全、有噪声、模糊的原始数据中提取隐含且潜在有用的信息和知识",
+            "数据挖掘 vs 大数据 vs 数据分析 vs 机器学习 vs 人工智能的关系",
+            "覆盖学科：统计学、机器学习、数据库技术、可视化技术",
+            "应用场景矩阵：金融、警务、数字政府、智慧园区、电商"
+          ],
+          "keyPoints": [
+            "大数据是数据挖掘的数据基础和处理对象",
+            "数据分析是数据挖掘的前置步骤和子集",
+            "机器学习是数据挖掘的核心技术手段",
+            "数据挖掘是AI在数据分析领域的具体应用"
+          ],
+          "formulas": []
+        },
+        {
+          "id": "m1-s2",
+          "title": "数据挖掘常用方法",
+          "topics": [
+            "按学习任务分类：监督学习（分类、回归）、无监督学习（聚类、关联规则）、半监督学习、强化学习",
+            "按功能类型分类：预测建模、描述建模、复杂建模（神经网络）、系统功能（预处理、特征选择）、业务应用（推荐系统）"
+          ],
+          "keyPoints": [
+            "分类输出离散类别，回归输出连续数值",
+            "聚类发现数据内在分组，关联规则发现项间关联",
+            "神经网络依任务而定输出类型",
+            "预处理是所有建模的前置步骤"
+          ],
+          "formulas": []
+        },
+        {
+          "id": "m1-s3",
+          "title": "开发工具",
+          "topics": [
+            "编程语言层：Python、R",
+            "开发环境层：Anaconda（包管理与环境隔离）",
+            "深度学习框架层：TensorFlow、PyTorch",
+            "机器学习库层：Scikit-learn",
+            "可视化平台层：ML Studio（华为自研）"
+          ],
+          "keyPoints": [
+            "Python生态丰富，为主要开发语言",
+            "学习路径由浅入深：Python基础→可视化→sklearn→特征工程→算法深入→集成学习→深度学习框架→项目实战"
+          ],
+          "formulas": []
+        },
+        {
+          "id": "m1-s4",
+          "title": "CRISP-DM流程",
+          "topics": [
+            "商业理解（Business Understanding）：明确业务目标，转化为数据挖掘目标",
+            "数据理解（Data Understanding）：熟悉数据特征，发现数据质量问题",
+            "数据准备（Data Preparation）：构建最终建模数据集",
+            "建模（Modeling）：选择并训练模型",
+            "评估（Evaluation）：验证模型是否满足业务目标",
+            "模型实施（Deployment）：将模型投入生产使用"
+          ],
+          "keyPoints": [
+            "CRISP-DM是跨行业数据挖掘标准流程",
+            "六阶段循环迭代，评估结果可反馈到前面阶段优化",
+            "交付物包括：项目计划书、数据质量报告、建模数据集、训练好的模型、评估报告、部署文档"
+          ],
+          "formulas": []
+        }
+      ]
+    },
+    {
+      "id": "m2",
+      "chapter": "第二章",
+      "title": "数据预处理与特征工程",
+      "summary": "涵盖数据对象与属性类型、数据清洗、数据转换、数据描述与可视化、特征工程，为建模准备高质量数据。",
+      "sections": [
+        {
+          "id": "m2-s1",
+          "title": "数据预处理概述",
+          "topics": [
+            "数据对象和属性类型：标称属性、二元属性、序数属性、数值属性",
+            "数据集类型：记录数据、图数据、有序数据、空间数据",
+            "汇总统计：均值、中位数、众数、方差、标准差、四分位数、极差"
+          ],
+          "keyPoints": [
+            "四类属性互斥，每个属性必属于且仅属于一类",
+            "二元是标称的特殊情况，因特殊重要性单独列出",
+            "数值属性进一步分为区间标度和比率标度"
+          ],
+          "formulas": [
+            {
+              "name": "均值",
+              "expression": "μ = (Σ xi) / n"
+            },
+            {
+              "name": "方差",
+              "expression": "σ² = Σ(xi - μ)² / n"
+            },
+            {
+              "name": "标准差",
+              "expression": "σ = √(σ²)"
+            }
+          ]
+        },
+        {
+          "id": "m2-s2",
+          "title": "数据清洗",
+          "topics": [
+            "缺失值处理：删除法、均值填充、中位数填充、众数填充、KNN填充、回归填充、变量映射、不处理",
+            "离群点处理：散点图法、3σ原则、箱型图法（IQR）、分类模型检测",
+            "遗漏值处理：业务规则识别、一致性检查、模式识别"
+          ],
+          "keyPoints": [
+            "缺失值处理决策树：先判断缺失比例，再判断特征类型和分布类型",
+            "箱型图离群点判定：下界 = Q1 - 1.5×IQR，上界 = Q3 + 1.5×IQR",
+            "离群点处理策略：删除、替换、保留、转换",
+            "遗漏值与缺失值区别：遗漏值是看似有值但实际未记录"
+          ],
+          "formulas": [
+            {
+              "name": "箱型图离群点下界",
+              "expression": "下界 = Q1 - 1.5 × IQR"
+            },
+            {
+              "name": "箱型图离群点上界",
+              "expression": "上界 = Q3 + 1.5 × IQR"
+            },
+            {
+              "name": "四分位距",
+              "expression": "IQR = Q3 - Q1"
+            }
+          ]
+        },
+        {
+          "id": "m2-s3",
+          "title": "数据转换",
+          "topics": [
+            "特征缩放：标准化（Z-score）、归一化（Min-Max）、均值归一化、正则化（单位向量）",
+            "连续型离散化：二值化、等距分箱、等频分箱、聚类分箱、卡方分箱",
+            "离散型编码：独热编码（One-Hot）、标签编码（Label）、哑编码（Dummy）",
+            "数据变换：多项式变换、对数变换",
+            "偏态处理：平方根法、对数转换、Box-Cox转换"
+          ],
+          "keyPoints": [
+            "标准化适用于近似正态分布，归一化适用于需要固定范围输出",
+            "等距分箱受离群点影响，等频分箱对离群点鲁棒",
+            "卡方分箱考虑目标变量，保留预测信息",
+            "编码选择：序数属性用Label Encoding，标称属性用One-Hot/Dummy",
+            "Box-Cox自动搜索最优lambda，适用于右偏数据"
+          ],
+          "formulas": [
+            {
+              "name": "标准化（Z-score）",
+              "expression": "z = (x - μ) / σ"
+            },
+            {
+              "name": "归一化（Min-Max）",
+              "expression": "x' = (x - min) / (max - min)"
+            },
+            {
+              "name": "均值归一化",
+              "expression": "x' = (x - μ) / (max - min)"
+            },
+            {
+              "name": "正则化（单位向量）",
+              "expression": "x' = x / ||x||"
+            },
+            {
+              "name": "Box-Cox转换",
+              "expression": "(x^λ - 1) / λ （λ≠0）；log(x) （λ=0）"
+            }
+          ]
+        },
+        {
+          "id": "m2-s4",
+          "title": "数据描述与可视化",
+          "topics": [
+            "matplotlib：折线图、散点图、柱状图、直方图",
+            "seaborn：热力图、箱型图、分布图、回归图、小提琴图",
+            "Echarts/pyecharts：交互式仪表盘、地图、关系图"
+          ],
+          "keyPoints": [
+            "直方图展示单变量分布，箱型图展示分布和离群点",
+            "散点图展示两变量关系，热力图展示矩阵数据和相关性",
+            "柱状图比较不同类别的值，折线图展示趋势变化"
+          ],
+          "formulas": []
+        },
+        {
+          "id": "m2-s5",
+          "title": "特征工程",
+          "topics": [
+            "特征选择定义：从原始特征集合中选择最优子集",
+            "Filter方法：方差选择法、相关系数法、卡方检验、互信息法",
+            "Wrapper方法：RFE（递归特征消除）、前向选择、后向消除",
+            "Embedded方法：L1正则化（Lasso）、基于树模型的特征重要性、随机森林特征重要性",
+            "特征选择 vs 降维：特征选择保留原始特征含义，降维产生新综合特征"
+          ],
+          "keyPoints": [
+            "Filter独立于模型，计算速度快，过拟合风险低",
+            "Wrapper基于模型性能迭代选择，计算量大，易过拟合",
+            "Embedded在模型训练中自动选择，计算量中等，泛化能力好",
+            "Lasso使部分特征系数精确为0，实现特征选择",
+            "随机森林通过多棵树平均降低方差，评估特征重要性"
+          ],
+          "formulas": []
+        }
+      ]
+    },
+    {
+      "id": "m3",
+      "chapter": "第三章",
+      "title": "回归与分类问题建模",
+      "summary": "涵盖机器学习基础概念框架、分类算法、回归算法、集成算法，系统掌握建模理论与算法原理。",
+      "sections": [
+        {
+          "id": "m3-s1",
+          "title": "基础概念框架",
+          "topics": [
+            "学习范式：监督学习、无监督学习、半监督学习、强化学习",
+            "偏差与方差：偏差-方差分解与权衡",
+            "过拟合与欠拟合：表现、原因、解决方案",
+            "泛化能力：数据层面、特征层面、模型层面、训练层面、集成层面提升方法",
+            "凸函数：局部最小值即为全局最小值"
+          ],
+          "keyPoints": [
+            "泛化误差 = 偏差² + 方差 + 不可约误差",
+            "模型复杂度↑ → 偏差↓，方差↑；模型复杂度↓ → 偏差↑，方差↓",
+            "欠拟合：训练集和测试集表现都差；过拟合：训练集好，测试集差",
+            "线性回归、逻辑回归、SVM的损失函数都是凸函数"
+          ],
+          "formulas": [
+            {
+              "name": "泛化误差（偏差-方差分解）",
+              "expression": "泛化误差 = Bias² + Variance + Irreducible Error"
+            },
+            {
+              "name": "凸函数定义",
+              "expression": "f(λx₁ + (1-λ)x₂) ≤ λf(x₁) + (1-λ)f(x₂)"
+            }
+          ]
+        },
+        {
+          "id": "m3-s2",
+          "title": "分类算法",
+          "topics": [
+            "逻辑回归：Sigmoid函数、对数损失、极大似然估计",
+            "KNN：K值选择、距离度量、分类决策规则",
+            "朴素贝叶斯：贝叶斯定理、类条件独立假设、高斯/多项式/伯努利变体",
+            "决策树：信息熵、信息增益、信息增益率、GINI指数、ID3/C4.5/CART、剪枝策略",
+            "SVM：超平面、间隔、支持向量、硬间隔/软间隔、核函数、SMO优化"
+          ],
+          "keyPoints": [
+            "逻辑回归是线性分类器，输出概率，可解释性强",
+            "KNN是非参数方法、惰性学习，预测慢但对复杂决策边界适应好",
+            "朴素贝叶斯假设特征条件独立，训练和预测速度快",
+            "CART既可分类也可回归，最常用，生成二叉树",
+            "SVM通过核函数将低维数据映射到高维空间实现非线性分类",
+            "核函数选择：高维特征少用线性核，通用首选RBF核"
+          ],
+          "formulas": [
+            {
+              "name": "Sigmoid函数",
+              "expression": "σ(z) = 1 / (1 + e^(-z))"
+            },
+            {
+              "name": "逻辑回归模型",
+              "expression": "P(y=1|x) = σ(w^T x + b) = 1 / (1 + e^(-(w^T x + b)))"
+            },
+            {
+              "name": "逻辑回归损失（交叉熵）",
+              "expression": "L = -1/N Σ[yi·log(yi_hat) + (1-yi)·log(1-yi_hat)]"
+            },
+            {
+              "name": "贝叶斯定理",
+              "expression": "P(Y|X) = P(X|Y)·P(Y) / P(X)"
+            },
+            {
+              "name": "类条件独立假设",
+              "expression": "P(X|Y) = Π P(xi|Y)"
+            },
+            {
+              "name": "欧氏距离",
+              "expression": "d = √(Σ(xi - yi)²)"
+            },
+            {
+              "name": "曼哈顿距离",
+              "expression": "d = Σ|xi - yi|"
+            },
+            {
+              "name": "闵可夫斯基距离",
+              "expression": "d = (Σ|xi - yi|^p)^(1/p)"
+            },
+            {
+              "name": "信息熵",
+              "expression": "H(S) = -Σ pi·log₂(pi)"
+            },
+            {
+              "name": "信息增益",
+              "expression": "IG(S,A) = H(S) - Σ(|Sv|/|S|)·H(Sv)"
+            },
+            {
+              "name": "信息增益率",
+              "expression": "GR(S,A) = IG(S,A) / SplitInfo(A)"
+            },
+            {
+              "name": "GINI指数",
+              "expression": "GINI(S) = 1 - Σ pi²"
+            },
+            {
+              "name": "SVM目标（硬间隔）",
+              "expression": "最小化 1/2·||w||²，约束 yi(w^T xi + b) ≥ 1"
+            },
+            {
+              "name": "RBF核函数",
+              "expression": "K(x,y) = exp(-γ·||x-y||²)"
+            },
+            {
+              "name": "多项式核函数",
+              "expression": "K(x,y) = (γ·x^T y + r)^d"
+            }
+          ]
+        },
+        {
+          "id": "m3-s3",
+          "title": "回归算法",
+          "topics": [
+            "线性回归：最小二乘法、梯度下降法、正规方程",
+            "多项式回归：引入特征幂次和交叉项拟合非线性关系",
+            "Ridge回归：L2正则化，解决多重共线性",
+            "LASSO回归：L1正则化，实现特征选择",
+            "ElasticNet回归：L1+L2组合正则化",
+            "SVR：epsilon-不敏感带、支持向量、核函数"
+          ],
+          "keyPoints": [
+            "批量梯度下降稳定但计算量大，随机梯度下降快但波动大，小批量梯度下降最常用",
+            "Ridge使系数接近0但不为0，LASSO使部分系数精确为0",
+            "ElasticNet兼具LASSO特征选择和Ridge稳定性，适合特征间存在相关性",
+            "SVR对离群点鲁棒，大部分样本预测误差在epsilon范围内不计损失"
+          ],
+          "formulas": [
+            {
+              "name": "线性回归模型",
+              "expression": "y = w^T x + b = w₁x₁ + w₂x₂ + ... + wₙxₙ + b"
+            },
+            {
+              "name": "最小二乘法（OLS）",
+              "expression": "L = Σ(yi - yi_hat)² = Σ(yi - w^T xi)²"
+            },
+            {
+              "name": "梯度下降更新",
+              "expression": "w := w - α·dL/dw"
+            },
+            {
+              "name": "正规方程",
+              "expression": "w = (X^T X)^(-1) X^T y"
+            },
+            {
+              "name": "Ridge损失",
+              "expression": "L = Σ(yi - yi_hat)² + α·Σwj²"
+            },
+            {
+              "name": "LASSO损失",
+              "expression": "L = Σ(yi - yi_hat)² + α·Σ|wj|"
+            },
+            {
+              "name": "ElasticNet损失",
+              "expression": "L = Σ(yi - yi_hat)² + α·[ρ·Σ|wj| + (1-ρ)·Σwj²/2]"
+            }
+          ]
+        },
+        {
+          "id": "m3-s4",
+          "title": "集成算法",
+          "topics": [
+            "Bagging（随机森林）：自助采样、样本随机+特征随机、投票/平均",
+            "Boosting：Adaboost、GBDT、Xgboost、LightGBM",
+            "Stacking：多层模型堆叠、元学习器",
+            "Voting：硬投票、软投票"
+          ],
+          "keyPoints": [
+            "随机森林双随机性：样本随机（Bootstrap）+特征随机，通常不剪枝",
+            "Adaboost聚焦错分样本，对噪声敏感；GBDT拟合残差，灵活强大",
+            "Xgboost加入正则化（L1+L2）和二阶泰勒展开，支持缺失值自动处理",
+            "LightGBM采用Leaf-wise和直方图算法，速度最快，内存占用小",
+            "Stacking用不同类型基学习器+元学习器融合，需交叉验证生成元特征防止信息泄露",
+            "Voting直接投票，简单直观，易并行"
+          ],
+          "formulas": [
+            {
+              "name": "Bagging预测（分类）",
+              "expression": "y_hat = mode{h₁(x), h₂(x), ..., hₘ(x)}"
+            },
+            {
+              "name": "Adaboost权重更新",
+              "expression": "D_{t+1}(i) = D_t(i)·exp(-α_t·yi·ht(xi)) / Z_t"
+            },
+            {
+              "name": "GBDT更新",
+              "expression": "F_m(x) = F_{m-1}(x) + ν·h_m(x) （ν为学习率）"
+            },
+            {
+              "name": "Xgboost目标",
+              "expression": "Obj = Σ l(yi, yi_hat) + Σ Ω(fk) （损失+正则化）"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "experiments": [
+    {
+      "id": "exp1",
+      "title": "数据预处理与特征工程",
+      "dataset": "Bike Sharing数据集（bike.csv）",
+      "tools": ["Pandas", "NumPy", "matplotlib", "seaborn", "scipy.stats", "sklearn.feature_selection"],
+      "steps": [
+        "导入必要的库并读取数据集",
+        "探索性可视化分析：直方图、概率图",
+        "对数变换处理目标变量分布",
+        "特征相关性分析：热力图",
+        "季节与计数的关系：小提琴图、箱线图",
+        "异常值处理：3σ准则检测并剔除",
+        "时间特征提取：年、月、日、小时",
+        "数值特征离散化：等宽分箱（湿度）、等频分箱（温度）",
+        "构造新特征：温差、体感温度与湿度之比、温度与风度之比、是否温差舒适",
+        "数值型特征转换为类别型特征：独热编码",
+        "特征筛选——方差选择法",
+        "特征筛选——相关系数法（SelectKBest）"
+      ],
+      "keyTakeaway": "数据和特征决定了机器学习的上限，而模型和算法只是逼近这个上限。建模之前的特征工程的好坏往往比建模过程更重要。"
+    },
+    {
+      "id": "exp2",
+      "title": "回归与分类问题建模",
+      "dataset": "Bike Sharing数据集（bike.csv）",
+      "tools": ["sklearn.linear_model", "sklearn.neighbors", "sklearn.tree", "sklearn.naive_bayes", "sklearn.model_selection"],
+      "steps": [
+        "导入必要的库并读取数据集",
+        "时间特征提取并删除原始时间列",
+        "线性回归建模并评估MSE",
+        "KNN回归建模并评估MSE",
+        "决策树回归建模并评估MSE",
+        "高斯朴素贝叶斯分类建模"
+      ],
+      "keyTakeaway": "线性回归是最基础的回归算法，决策树简单直观，KNN基于实例学习，贝叶斯基于概率统计。不同算法适用于不同场景。"
+    },
+    {
+      "id": "exp3",
+      "title": "聚类与降维问题建模",
+      "dataset": "Iris鸢尾花数据集（iris.csv）",
+      "tools": ["sklearn.cluster", "sklearn.decomposition", "sklearn.preprocessing", "sklearn.metrics"],
+      "steps": [
+        "导入必要的库并读取数据集",
+        "数据标准化",
+        "KMeans聚类并计算轮廓系数",
+        "PCA降维并可视化",
+        "LDA降维"
+      ],
+      "keyTakeaway": "KMeans是最基础的聚类算法，PCA是最常用的降维算法，LDA是基于概率模型的降维算法。"
+    },
+    {
+      "id": "exp4",
+      "title": "关联分析与推荐问题建模",
+      "dataset": "Groceries购物篮数据集（groceries.csv）",
+      "tools": ["mlxtend.frequent_patterns", "sklearn.metrics.pairwise"],
+      "steps": [
+        "导入必要的库并读取数据集",
+        "Apriori算法挖掘频繁项集和关联规则",
+        "FPGrowth算法挖掘频繁项集和关联规则",
+        "协同过滤推荐：构建用户-物品评分矩阵，计算用户相似度"
+      ],
+      "keyTakeaway": "Apriori通过迭代挖掘频繁项集，FPGrowth通过构建频繁模式树避免多次扫描数据集，协同过滤通过计算相似度实现推荐。"
+    },
+    {
+      "id": "exp5",
+      "title": "模型评估与优化",
+      "dataset": "Iris鸢尾花数据集（iris.csv）",
+      "tools": ["sklearn.model_selection", "sklearn.ensemble", "sklearn.metrics", "sklearn.tree", "sklearn.linear_model", "sklearn.svm"],
+      "steps": [
+        "导入必要的库并读取数据集",
+        "交叉验证评估决策树",
+        "网格搜索优化决策树参数（max_depth、min_samples_split）",
+        "模型融合——Voting：随机森林+逻辑回归+SVM"
+      ],
+      "keyTakeaway": "交叉验证通过多次评估提高可靠性，网格搜索遍历参数组合找到最优解，模型融合通过组合多个模型提高性能。"
+    },
+    {
+      "id": "exp6",
+      "title": "数据挖掘综合实验一：分类案例",
+      "dataset": "Adult收入预测数据集（adult.csv）",
+      "tools": ["Pandas", "NumPy", "matplotlib", "seaborn", "sklearn", "xgboost", "lightgbm"],
+      "steps": [
+        "读取数据集并查看基本信息",
+        "对类别型特征进行LabelEncoder编码",
+        "划分训练集和测试集",
+        "定义模型评估函数（准确率、交叉验证）",
+        "KNN分类",
+        "逻辑回归分类",
+        "决策树分类",
+        "随机森林分类",
+        "GBDT分类",
+        "XGBoost分类",
+        "LightGBM分类",
+        "效果对比与ROC曲线可视化"
+      ],
+      "keyTakeaway": "Bagging通过降低基分类器方差改善泛化误差，Boosting加入权值采样和权重强分类概念。若只考虑准确率，GBDT或LightGBM为最优模型。"
+    },
+    {
+      "id": "exp7",
+      "title": "数据挖掘综合实验二：回归案例",
+      "dataset": "房价预测数据集（train.csv/test.csv）",
+      "tools": ["Pandas", "NumPy", "matplotlib", "seaborn", "scipy", "sklearn", "mlxtend"],
+      "steps": [
+        "读取训练集和测试集",
+        "目标变量分布分析（偏度、峰度）",
+        "异常值处理：删除特定条件异常值",
+        "目标变量log变换",
+        "训练数据和测试数据合并",
+        "缺失值填充：类别特征用新类别、数值特征用0或众数",
+        "顺序特征编码（自定义映射）",
+        "字符特征独热编码",
+        "特征降维（Lasso）",
+        "Stacking算法融合",
+        "Voting算法融合"
+      ],
+      "keyTakeaway": "Stacking是Kaggle比赛中最常见的集成学习模型，通过融合多个子模型提升效果。若效果不佳可移除逊色模型、丰富子模型种类或重新检查基学习器训练。"
+    },
+    {
+      "id": "exp8",
+      "title": "PySpark MLlib 统计分析",
+      "dataset": "示例观测数据",
+      "tools": ["PySpark", "pyspark.mllib.stat", "pyspark.mllib.random", "pyspark.mllib.stat.KernelDensity"],
+      "steps": [
+        "初始化PySpark环境",
+        "摘要统计：colStats计算均值、方差等",
+        "相关性分析：Pearson相关系数",
+        "分层抽样：sampleByKey",
+        "随机数生成：normalRDD",
+        "核密度估计：KernelDensity"
+      ],
+      "keyTakeaway": "PySpark MLlib为基于大数据集群的统计分析提供理论基础，支持分布式统计计算。"
+    },
+    {
+      "id": "exp9",
+      "title": "PySpark MLlib 数据预处理",
+      "dataset": "文本与结构化示例数据",
+      "tools": ["PySpark ML", "Tokenizer", "HashingTF", "Word2Vec", "CountVectorizer", "PCA", "StringIndexer", "OneHotEncoder", "Normalizer"],
+      "steps": [
+        "初始化PySpark环境",
+        "特征提取：TF-IDF、Word2Vec、CountVectorizer",
+        "特征转换：RegexTokenizer、StopWordsRemover、PCA、StringIndexer、OneHotEncoder、Normalizer"
+      ],
+      "keyTakeaway": "PySpark MLlib提供从文本处理到数据转换的完整工具链，包括二值化、降维、多项式拓展、离散化、索引变化、OneHot编码、范数规范化等。"
+    },
+    {
+      "id": "exp10",
+      "title": "PySpark MLlib 房价预测",
+      "dataset": "houses_data.csv",
+      "tools": ["PySpark", "pyspark.mllib.regression.LinearRegressionWithSGD", "pyspark.mllib.feature.StandardScaler"],
+      "steps": [
+        "初始化PySpark环境",
+        "数据加载与预处理",
+        "数据标准化",
+        "建立线性回归模型（SGD训练，迭代1000次，步长0.2）"
+      ],
+      "keyTakeaway": "采用线性回归算法实现价格预测，迭代次数和步长等参数可自行调整以观察对预测结果的影响。"
+    },
+    {
+      "id": "exp11",
+      "title": "PySpark MLlib 欺诈检测",
+      "dataset": "信用卡交易数据集（creditcard.csv）",
+      "tools": ["PySpark", "pyspark.ml.classification.GBTClassifier", "pyspark.ml.evaluation.BinaryClassificationEvaluator", "pyspark.ml.feature.VectorAssembler"],
+      "steps": [
+        "初始化PySpark环境",
+        "数据加载",
+        "数据预处理：采样、平衡欺诈与非欺诈样本",
+        "建立GBDT分类器模型（maxIter=100, maxDepth=8）",
+        "模型评估：BinaryClassificationEvaluator"
+      ],
+      "keyTakeaway": "通过PCA降维和数据不均衡处理方法，提高了交易欺诈模型的准确率。"
+    },
+    {
+      "id": "exp12",
+      "title": "PySpark MLlib 客户流失预测",
+      "dataset": "Sparkify事件数据（sparkify-event-data.json）",
+      "tools": ["PySpark", "pyspark.ml.classification.GBTClassifier", "pyspark.ml.feature.VectorAssembler", "pyspark.ml.feature.StandardScaler"],
+      "steps": [
+        "初始化PySpark环境",
+        "数据理解：查看Schema",
+        "特征工程与探索性数据分析：窗口函数构造时序特征",
+        "模型评估：VectorAssembler + StandardScaler + GBTClassifier",
+        "GBDT分类器训练（maxDepth=5, maxIter=20）"
+      ],
+      "keyTakeaway": "通过特征工程和探索性数据分析，提高发现可能取消帐户并离开服务的用户的准确率。"
+    },
+    {
+      "id": "exp13",
+      "title": "PySpark MLlib 降维聚类分析",
+      "dataset": "Iris鸢尾花数据集",
+      "tools": ["PySpark", "pyspark.ml.feature.PCA", "pyspark.ml.clustering.KMeans", "pyspark.ml.feature.VectorAssembler", "pyspark.ml.feature.StandardScaler"],
+      "steps": [
+        "初始化PySpark环境",
+        "PCA降维：VectorAssembler + StandardScaler + PCA（n_components=3）",
+        "KMeans聚类：手肘法确定k值（k=12）"
+      ],
+      "keyTakeaway": "PCA实现降维并用KMeans实现聚类，k值通过手肘法作图观察确定。"
+    },
+    {
+      "id": "exp14",
+      "title": "PySpark MLlib 购物篮数据分析",
+      "dataset": "购物篮数据（basket.csv, Groceries data.csv）",
+      "tools": ["PySpark", "pyspark.ml.fpm.FPGrowth"],
+      "steps": [
+        "初始化PySpark环境",
+        "读取数据并构建篮子数组",
+        "FPGrowth算法：设置minSupport和minConfidence",
+        "查看频繁项集",
+        "查看关联规则并过滤（confidence > 0.15）"
+      ],
+      "keyTakeaway": "通过FPGrowth算法给出推荐规则，支持度与置信度可自行定义并多次运行选择最优参数。"
+    },
+    {
+      "id": "exp15",
+      "title": "PySpark MLlib 协同过滤",
+      "dataset": "Amazon消费者评论数据（Amazon_Consumer_Reviews.csv）",
+      "tools": ["PySpark", "pyspark.ml.recommendation.ALS", "pyspark.ml.evaluation.RegressionEvaluator", "pyspark.ml.feature.StringIndexer"],
+      "steps": [
+        "初始化PySpark环境",
+        "数据预处理：重命名列、StringIndexer编码",
+        "划分训练集和测试集（75%/25%）",
+        "ALS模型训练（maxIter=10, regParam=0.01）",
+        "模型评估：RMSE"
+      ],
+      "keyTakeaway": "采用ALS算法实现协同过滤，maxIter和regParam等参数可自行调整观察对预测结果的影响。"
+    },
+    {
+      "id": "exp16",
+      "title": "MRS 数据湖实验",
+      "dataset": "MySQL测试数据（t1表）",
+      "tools": ["华为MRS", "CDL", "Kafka", "Spark", "Flink", "Hudi", "HetuEngine", "GaussDB"],
+      "steps": [
+        "搭建MRS环境并安装客户端",
+        "搭建RDS环境（MySQL 8.0）",
+        "配置CDL连接：MySQL到Hudi",
+        "MySQL数据导入Hudi",
+        "通过Spark/Spark SQL/Hive查询Hudi数据",
+        "FlinkSQL处理Hudi数据",
+        "HetuEngine湖内查询",
+        "配置GaussDB数据源",
+        "HetuEngine跨仓查询"
+      ],
+      "keyTakeaway": "模拟数据实时入湖操作流程，通过CDL将MySQL数据实时入湖到Hudi，支持Spark、Flink、Hive等多种查询方式，HetuEngine实现湖内与跨仓查询。"
+    },
+    {
+      "id": "exp17",
+      "title": "综合大实验：鱼的重量回归预测",
+      "dataset": "Fish.csv（7种鱼类的形态数据）",
+      "tools": ["Pandas", "NumPy", "matplotlib", "seaborn", "sklearn"],
+      "steps": [
+        "读取数据集并查看样本",
+        "数据探索：种类输出、空值检查、属性与重量分布散点图",
+        "属性相关性分析：热力图、下三角热力图、强相关模式（>0.7）",
+        "特征工程：数据标准化",
+        "建立模型：线性回归、随机森林、梯度提升树（GBDT）、KNN、决策树",
+        "参数优化：网格搜索（loss、min_samples_leaf、alpha）"
+      ],
+      "keyTakeaway": "针对实际问题进行建模分析，采用多种方法进行模型对比，最终选择梯度提升树进行模型训练。交叉网格搜索有效提升模型准确率。"
+    },
+    {
+      "id": "exp18",
+      "title": "综合大实验：森林覆盖类型分类预测",
+      "dataset": "train_forest_covertype.csv（15120条，56列）",
+      "tools": ["Pandas", "NumPy", "seaborn", "matplotlib", "sklearn", "xgboost", "lightgbm", "mlxtend"],
+      "steps": [
+        "读取数据集并查看基本信息",
+        "数据探索与清洗：抽样、标签分布检查、删除全零列（Soil_Type7、Soil_Type15）",
+        "特征工程：多模型交叉验证比较（逻辑回归、LDA、SVM、决策树、随机森林、GBDT、Adaboost、XGBoost、KNN、LightGBM）",
+        "特征重要性分析：多模型特征重要性汇总，删除重要性最低的20个特征",
+        "参数优化：GridSearchCV（LightGBM、随机森林等）",
+        "VotingClassifier：Hard Vote和Soft Vote",
+        "StackingClassifier：多层模型堆叠"
+      ],
+      "keyTakeaway": "VotingClassifier和StackingClassifier将多个分类器组合在一起，有效提高分类器准确率，减少过拟合风险。"
+    },
+    {
+      "id": "exp19",
+      "title": "综合大实验：音乐流派聚类分析",
+      "dataset": "SpotifyFeatures.csv（Spotify音频特征数据）",
+      "tools": ["Pandas", "NumPy", "matplotlib", "seaborn", "sklearn"],
+      "steps": [
+        "读取数据集并抽样（n=10000）",
+        "数据探索：信息查看、直方图、最流行的歌曲和艺术家",
+        "特征工程：选取数值特征并归一化",
+        "聚类建模：KMeans（手肘法+轮廓系数）、BIRCH、GMM（BIC/AIC）、SpectralClustering",
+        "最终采用谱聚类（k=5）并分析各簇流行度均值"
+      ],
+      "keyTakeaway": "KMeans简单快速，BIRCH可处理大数据集，GMM和Spectral基于概率模型可处理任意形状聚类。"
+    },
+    {
+      "id": "exp20",
+      "title": "综合大实验：在线零售数据关联分析",
+      "dataset": "Online Retail.csv（英国在线零售交易数据）",
+      "tools": ["Pandas", "mlxtend"],
+      "steps": [
+        "读取数据集",
+        "数据清洗：去除空格、空值、退货记录（C开头）",
+        "特征工程：One-Hot编码构建购物篮矩阵",
+        "挖掘频繁项集和关联规则（FPGrowth）",
+        "过滤规则：lift ≥ 3 且 confidence ≥ 0.8"
+      ],
+      "keyTakeaway": "关联分析易于向非技术人员解释，是寻找隐藏模式的无监督学习工具。"
+    },
+    {
+      "id": "exp21",
+      "title": "综合大实验：书籍推荐协同过滤分析",
+      "dataset": "BX-Books.csv、BX-Users.csv、BX-Book-Ratings.csv",
+      "tools": ["Pandas", "NumPy", "matplotlib", "seaborn", "sklearn", "scipy"],
+      "steps": [
+        "读取三个数据集",
+        "书籍数据集清洗：删除图像URL、修正错位数据、转换出版年份类型",
+        "用户数据集清洗：年龄异常值处理（>90或<5设为均值）",
+        "评级数据集处理：筛选有效数据、计算稀疏性、分离显式/隐式评级",
+        "基于简单流行度的推荐",
+        "KNN+余弦相似度实现基于用户的推荐",
+        "KNN+余弦相似度实现基于项目的推荐"
+      ],
+      "keyTakeaway": "通过对三个数据集进行特征工程和探索性数据分析，提高基于用户和基于项目的协同过滤推荐准确率。"
+    },
+    {
+      "id": "exp22",
+      "title": "综合大实验：PySpark广告推荐系统",
+      "dataset": "raw_sample_4m.csv、ad_feature.csv、user_profile.csv",
+      "tools": ["PySpark", "ALS", "RandomForest", "OneHotEncoder", "StringIndexer"],
+      "steps": [
+        "raw_sample数据处理：类型转换、OneHot编码、划分训练集和测试集（前七天/最后一天）",
+        "ad_feature数据处理：替换NULL、类型转换",
+        "user_profile数据处理：查看空值、随机森林预测填充缺失值（pvalue_level、new_user_class_level）",
+        "独热编码处理类别特征",
+        "保存处理后的数据供后续建模使用"
+      ],
+      "keyTakeaway": "探索独热编码、缺失值填充在实际业务中的应用，通过对三个数据集进行特征工程和探索性数据分析，提高广告点击率预测和推荐的准确率。"
+    }
+  ],
+  "caseStudies": [
+    {
+      "id": "cs1",
+      "title": "鱼的重量回归预测",
+      "type": "回归",
+      "algorithms": ["线性回归", "随机森林", "梯度提升树", "KNN", "决策树"],
+      "dataset": "Fish.csv",
+      "keySteps": [
+        "数据探索：种类分布、空值检查、属性与重量关系",
+        "相关性分析：length1/length2/length3强相关",
+        "特征工程：数据标准化",
+        "多模型对比：线性回归(0.82)、随机森林(0.98)、GBDT(0.98)、KNN(0.90)、决策树(0.97)",
+        "网格搜索优化GBDT参数"
+      ]
+    },
+    {
+      "id": "cs2",
+      "title": "森林覆盖类型分类预测",
+      "type": "分类",
+      "algorithms": ["逻辑回归", "LDA", "SVM", "决策树", "随机森林", "GBDT", "Adaboost", "XGBoost", "KNN", "LightGBM", "Voting", "Stacking"],
+      "dataset": "train_forest_covertype.csv",
+      "keySteps": [
+        "数据清洗：删除全零列Soil_Type7和Soil_Type15",
+        "10种模型交叉验证对比",
+        "多模型特征重要性汇总，删除低重要性特征",
+        "GridSearchCV参数优化",
+        "VotingClassifier（Hard/Soft）和StackingClassifier融合"
+      ]
+    },
+    {
+      "id": "cs3",
+      "title": "音乐流派聚类分析",
+      "type": "聚类",
+      "algorithms": ["KMeans", "BIRCH", "GMM", "SpectralClustering"],
+      "dataset": "SpotifyFeatures.csv",
+      "keySteps": [
+        "数据抽样（n=10000）",
+        "数值特征归一化",
+        "KMeans手肘法+轮廓系数选k",
+        "BIRCH、GMM（BIC/AIC）、SpectralClustering对比",
+        "最终采用SpectralClustering（k=5）分析各簇流行度"
+      ]
+    },
+    {
+      "id": "cs4",
+      "title": "在线零售数据关联分析",
+      "type": "关联分析",
+      "algorithms": ["FPGrowth"],
+      "dataset": "Online Retail.csv",
+      "keySteps": [
+        "数据清洗：去除空格、空值、退货记录",
+        "One-Hot编码构建购物篮矩阵",
+        "FPGrowth挖掘频繁项集和关联规则",
+        "过滤高lift和高confidence规则"
+      ]
+    },
+    {
+      "id": "cs5",
+      "title": "书籍推荐协同过滤分析",
+      "type": "推荐",
+      "algorithms": ["基于用户的协同过滤", "基于项目的协同过滤"],
+      "dataset": "BX-Books.csv、BX-Users.csv、BX-Book-Ratings.csv",
+      "keySteps": [
+        "三数据集清洗与整合",
+        "稀疏性检查（99.9986%）",
+        "基于简单流行度的推荐",
+        "KNN+余弦相似度实现基于用户的推荐",
+        "KNN+余弦相似度实现基于项目的推荐"
+      ]
+    },
+    {
+      "id": "cs6",
+      "title": "PySpark广告推荐系统",
+      "type": "推荐",
+      "algorithms": ["随机森林", "ALS"],
+      "dataset": "raw_sample_4m.csv、ad_feature.csv、user_profile.csv",
+      "keySteps": [
+        "三数据集分别处理：类型转换、OneHot编码",
+        "随机森林预测填充user_profile缺失值",
+        "构建训练集和测试集",
+        "ALS协同过滤建模"
+      ]
+    }
+  ],
+  "formulas": [
+    {
+      "name": "均值",
+      "expression": "μ = (Σ xi) / n",
+      "category": "统计基础"
+    },
+    {
+      "name": "方差",
+      "expression": "σ² = Σ(xi - μ)² / n",
+      "category": "统计基础"
+    },
+    {
+      "name": "标准差",
+      "expression": "σ = √(σ²)",
+      "category": "统计基础"
+    },
+    {
+      "name": "Pearson相关系数",
+      "expression": "ρ = Cov(X,Y) / (σ_X · σ_Y)",
+      "category": "统计基础"
+    },
+    {
+      "name": "标准化（Z-score）",
+      "expression": "z = (x - μ) / σ",
+      "category": "数据转换"
+    },
+    {
+      "name": "归一化（Min-Max）",
+      "expression": "x' = (x - min) / (max - min)",
+      "category": "数据转换"
+    },
+    {
+      "name": "Box-Cox转换",
+      "expression": "(x^λ - 1) / λ （λ≠0）；log(x) （λ=0）",
+      "category": "数据转换"
+    },
+    {
+      "name": "信息熵",
+      "expression": "H(S) = -Σ pi·log₂(pi)",
+      "category": "信息论"
+    },
+    {
+      "name": "信息增益",
+      "expression": "IG(S,A) = H(S) - Σ(|Sv|/|S|)·H(Sv)",
+      "category": "信息论"
+    },
+    {
+      "name": "信息增益率",
+      "expression": "GR(S,A) = IG(S,A) / SplitInfo(A)",
+      "category": "信息论"
+    },
+    {
+      "name": "GINI指数",
+      "expression": "GINI(S) = 1 - Σ pi²",
+      "category": "信息论"
+    },
+    {
+      "name": "Sigmoid函数",
+      "expression": "σ(z) = 1 / (1 + e^(-z))",
+      "category": "分类算法"
+    },
+    {
+      "name": "逻辑回归模型",
+      "expression": "P(y=1|x) = σ(w^T x + b) = 1 / (1 + e^(-(w^T x + b)))",
+      "category": "分类算法"
+    },
+    {
+      "name": "逻辑回归损失（交叉熵）",
+      "expression": "L = -1/N Σ[yi·log(yi_hat) + (1-yi)·log(1-yi_hat)]",
+      "category": "分类算法"
+    },
+    {
+      "name": "贝叶斯定理",
+      "expression": "P(Y|X) = P(X|Y)·P(Y) / P(X)",
+      "category": "分类算法"
+    },
+    {
+      "name": "类条件独立假设",
+      "expression": "P(X|Y) = Π P(xi|Y)",
+      "category": "分类算法"
+    },
+    {
+      "name": "欧氏距离",
+      "expression": "d = √(Σ(xi - yi)²)",
+      "category": "分类算法"
+    },
+    {
+      "name": "曼哈顿距离",
+      "expression": "d = Σ|xi - yi|",
+      "category": "分类算法"
+    },
+    {
+      "name": "闵可夫斯基距离",
+      "expression": "d = (Σ|xi - yi|^p)^(1/p)",
+      "category": "分类算法"
+    },
+    {
+      "name": "SVM目标（硬间隔）",
+      "expression": "最小化 1/2·||w||²，约束 yi(w^T xi + b) ≥ 1",
+      "category": "分类算法"
+    },
+    {
+      "name": "RBF核函数",
+      "expression": "K(x,y) = exp(-γ·||x-y||²)",
+      "category": "分类算法"
+    },
+    {
+      "name": "多项式核函数",
+      "expression": "K(x,y) = (γ·x^T y + r)^d",
+      "category": "分类算法"
+    },
+    {
+      "name": "线性回归模型",
+      "expression": "y = w^T x + b = w₁x₁ + w₂x₂ + ... + wₙxₙ + b",
+      "category": "回归算法"
+    },
+    {
+      "name": "最小二乘法（OLS）",
+      "expression": "L = Σ(yi - yi_hat)² = Σ(yi - w^T xi)²",
+      "category": "回归算法"
+    },
+    {
+      "name": "梯度下降更新",
+      "expression": "w := w - α·dL/dw",
+      "category": "回归算法"
+    },
+    {
+      "name": "正规方程",
+      "expression": "w = (X^T X)^(-1) X^T y",
+      "category": "回归算法"
+    },
+    {
+      "name": "Ridge损失",
+      "expression": "L = Σ(yi - yi_hat)² + α·Σwj²",
+      "category": "回归算法"
+    },
+    {
+      "name": "LASSO损失",
+      "expression": "L = Σ(yi - yi_hat)² + α·Σ|wj|",
+      "category": "回归算法"
+    },
+    {
+      "name": "ElasticNet损失",
+      "expression": "L = Σ(yi - yi_hat)² + α·[ρ·Σ|wj| + (1-ρ)·Σwj²/2]",
+      "category": "回归算法"
+    },
+    {
+      "name": "泛化误差（偏差-方差分解）",
+      "expression": "泛化误差 = Bias² + Variance + Irreducible Error",
+      "category": "基础概念"
+    },
+    {
+      "name": "凸函数定义",
+      "expression": "f(λx₁ + (1-λ)x₂) ≤ λf(x₁) + (1-λ)f(x₂)",
+      "category": "基础概念"
+    },
+    {
+      "name": "Bagging预测（分类）",
+      "expression": "y_hat = mode{h₁(x), h₂(x), ..., hₘ(x)}",
+      "category": "集成学习"
+    },
+    {
+      "name": "Adaboost权重更新",
+      "expression": "D_{t+1}(i) = D_t(i)·exp(-α_t·yi·ht(xi)) / Z_t",
+      "category": "集成学习"
+    },
+    {
+      "name": "GBDT更新",
+      "expression": "F_m(x) = F_{m-1}(x) + ν·h_m(x) （ν为学习率）",
+      "category": "集成学习"
+    },
+    {
+      "name": "Xgboost目标",
+      "expression": "Obj = Σ l(yi, yi_hat) + Σ Ω(fk) （损失+正则化）",
+      "category": "集成学习"
+    },
+    {
+      "name": "箱型图离群点下界",
+      "expression": "下界 = Q1 - 1.5 × IQR",
+      "category": "数据清洗"
+    },
+    {
+      "name": "箱型图离群点上界",
+      "expression": "上界 = Q3 + 1.5 × IQR",
+      "category": "数据清洗"
+    },
+    {
+      "name": "四分位距",
+      "expression": "IQR = Q3 - Q1",
+      "category": "数据清洗"
+    }
+  ]
+};
 
     const crispDmData = [
         { title: '商业理解', text: '明确业务目标，将业务问题转化为数据挖掘目标，制定项目计划与成功标准。' },
@@ -72,6 +1105,9 @@
 
         const progress = index === 0 ? 0 : ((index) / (stageItems.length - 1)) * 100;
         document.querySelector('.stage-track').style.setProperty('--progress', `${progress}%`);
+
+        // Update circular diagram
+        updateCrispDmDiagram(index);
     }
 
     stageItems.forEach((item, index) => {
@@ -92,24 +1128,12 @@
         });
     });
 
-    // 加载 outline.json
-    async function loadOutline() {
-        try {
-            const res = await fetch('data/outline.json');
-            outlineData = await res.json();
-            renderAll();
-        } catch (err) {
-            console.error('Failed to load outline.json:', err);
-            renderFallback();
-        }
-    }
-
     // 渲染知识总览卡片
     function renderKnowledgeCards() {
         if (!knowledgeGrid || !outlineData) return;
         const modules = outlineData.modules || [];
         knowledgeGrid.innerHTML = modules.map((m, i) => `
-            <article class="knowledge-card" style="animation-delay: ${i * 0.1}s">
+            <article class="knowledge-card" data-module="${m.id}" style="animation-delay: ${i * 0.1}s">
                 <p class="eyebrow">${m.chapter}</p>
                 <h3>${m.title}</h3>
                 <p>${m.summary}</p>
@@ -118,6 +1142,18 @@
                 </div>
             </article>
         `).join('');
+
+        // Add hover listeners for hero graph highlighting
+        const cards = knowledgeGrid.querySelectorAll('.knowledge-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const modId = card.dataset.module;
+                highlightHeroGraph(modId);
+            });
+            card.addEventListener('mouseleave', () => {
+                resetHeroGraphHighlight();
+            });
+        });
     }
 
     // 渲染公式面板
@@ -188,15 +1224,6 @@
         `).join('');
     }
 
-    // 失败回退
-    function renderFallback() {
-        if (knowledgeGrid) {
-            knowledgeGrid.innerHTML = `
-                <article class="knowledge-card"><p class="eyebrow">提示</p><h3>数据加载失败</h3><p>请通过本地服务器打开本站，或检查 data/outline.json 是否存在。</p></article>
-            `;
-        }
-    }
-
     function escapeHtml(str) {
         return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
     }
@@ -236,10 +1263,428 @@
         });
     }
 
+    // ========== Hero SVG Knowledge Graph ==========
+    let heroGraph = null;
+
+    function initHeroGraph() {
+        const container = document.getElementById('heroVisual');
+        if (!container) return;
+
+        // Replace placeholder with SVG
+        container.innerHTML = '<svg id="heroSvg" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%;display:block;"></svg>';
+        const svg = document.getElementById('heroSvg');
+        if (!svg) return;
+
+        const ns = 'http://www.w3.org/2000/svg';
+        const width = 600;
+        const height = 420;
+
+        // Build graph nodes
+        const modules = outlineData.modules || [];
+        const nodes = [];
+        const links = [];
+
+        // Center root node
+        nodes.push({ id: 'root', label: '数据挖掘', x: width / 2, y: height / 2, r: 28, type: 'root', moduleId: null });
+
+        const moduleColors = ['#0071e3', '#7c4dff', '#f43f5e'];
+        const moduleAngles = [Math.PI, Math.PI * 1.75, Math.PI * 0.25]; // left, top-right, bottom-right
+        const moduleDist = 140;
+
+        modules.forEach((mod, mi) => {
+            const angle = moduleAngles[mi] || (Math.PI * 2 * mi / 3);
+            const mx = width / 2 + Math.cos(angle) * moduleDist;
+            const my = height / 2 + Math.sin(angle) * moduleDist;
+
+            const modNode = { id: mod.id, label: mod.title, x: mx, y: my, r: 22, type: 'module', moduleId: mod.id, color: moduleColors[mi] };
+            nodes.push(modNode);
+            links.push({ source: 'root', target: mod.id, color: moduleColors[mi] });
+
+            // Section nodes around each module
+            const sections = mod.sections || [];
+            const secCount = sections.length;
+            const secDist = 90;
+            const spread = Math.PI * 0.9;
+            const startAngle = angle - spread / 2;
+
+            sections.forEach((sec, si) => {
+                const sa = startAngle + (spread / (secCount - 1 || 1)) * si;
+                const sx = mx + Math.cos(sa) * secDist;
+                const sy = my + Math.sin(sa) * secDist;
+                const secId = sec.id;
+                nodes.push({ id: secId, label: sec.title, x: sx, y: sy, r: 14, type: 'section', moduleId: mod.id, color: moduleColors[mi] });
+                links.push({ source: mod.id, target: secId, color: moduleColors[mi] });
+            });
+        });
+
+        // Create link elements first (behind nodes)
+        const linkGroup = document.createElementNS(ns, 'g');
+        svg.appendChild(linkGroup);
+        const linkEls = [];
+        links.forEach(l => {
+            const line = document.createElementNS(ns, 'line');
+            line.setAttribute('stroke', l.color || '#ccc');
+            line.setAttribute('stroke-width', '1.5');
+            line.setAttribute('stroke-opacity', '0.35');
+            line.setAttribute('class', 'hero-link');
+            linkGroup.appendChild(line);
+            linkEls.push({ el: line, source: l.source, target: l.target, color: l.color });
+        });
+
+        // Create node groups
+        const nodeGroup = document.createElementNS(ns, 'g');
+        svg.appendChild(nodeGroup);
+        const nodeEls = [];
+
+        nodes.forEach(n => {
+            const g = document.createElementNS(ns, 'g');
+            g.setAttribute('class', 'hero-node');
+            g.setAttribute('data-id', n.id);
+            g.setAttribute('data-module', n.moduleId || '');
+            g.style.cursor = 'pointer';
+
+            const circle = document.createElementNS(ns, 'circle');
+            circle.setAttribute('r', n.r);
+            circle.setAttribute('fill', n.type === 'root' ? '#1d1d1f' : (n.color || '#0071e3'));
+            circle.setAttribute('stroke', '#fff');
+            circle.setAttribute('stroke-width', '2.5');
+            circle.setAttribute('class', 'hero-node-circle');
+            g.appendChild(circle);
+
+            const text = document.createElementNS(ns, 'text');
+            text.setAttribute('text-anchor', 'middle');
+            text.setAttribute('dominant-baseline', 'central');
+            text.setAttribute('fill', '#fff');
+            text.setAttribute('font-size', n.type === 'root' ? '14' : (n.type === 'module' ? '12' : '10'));
+            text.setAttribute('font-weight', '600');
+            text.setAttribute('class', 'hero-node-text');
+            text.textContent = n.label;
+            g.appendChild(text);
+
+            nodeGroup.appendChild(g);
+            nodeEls.push({ el: g, circle, text, data: n });
+
+            // Click to scroll to related section
+            g.addEventListener('click', () => {
+                if (n.type === 'module') {
+                    const targetMap = { m1: 'overview', m2: 'preprocessing', m3: 'modeling' };
+                    const targetId = targetMap[n.id];
+                    if (targetId) {
+                        document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+                    }
+                } else if (n.type === 'section') {
+                    const parentMod = n.id.split('-')[0];
+                    const targetMap = { m1: 'overview', m2: 'preprocessing', m3: 'modeling' };
+                    const targetId = targetMap[parentMod];
+                    if (targetId) {
+                        document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // Physics simulation state
+        const nodeMap = {};
+        nodes.forEach(n => nodeMap[n.id] = n);
+
+        let time = 0;
+        let animId = null;
+        let running = true;
+
+        function animate() {
+            if (!running) return;
+            time += 0.008;
+
+            // Gentle force-directed-like motion
+            nodes.forEach(n => {
+                if (n.type === 'root') return;
+                const baseX = n.x;
+                const baseY = n.y;
+                const offset = n.type === 'module' ? 6 : 4;
+                const phase = n.id.charCodeAt(0) + (n.id.charCodeAt(1) || 0);
+                n._drawX = baseX + Math.sin(time + phase) * offset;
+                n._drawY = baseY + Math.cos(time * 0.7 + phase) * offset;
+            });
+
+            // Root stays fixed
+            const root = nodeMap['root'];
+            root._drawX = root.x;
+            root._drawY = root.y;
+
+            // Update links
+            linkEls.forEach(le => {
+                const s = nodeMap[le.source];
+                const t = nodeMap[le.target];
+                if (s && t) {
+                    le.el.setAttribute('x1', s._drawX);
+                    le.el.setAttribute('y1', s._drawY);
+                    le.el.setAttribute('x2', t._drawX);
+                    le.el.setAttribute('y2', t._drawY);
+                }
+            });
+
+            // Update nodes
+            nodeEls.forEach(ne => {
+                const n = ne.data;
+                ne.el.setAttribute('transform', `translate(${n._drawX}, ${n._drawY})`);
+            });
+
+            animId = requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        heroGraph = {
+            nodes: nodeEls,
+            links: linkEls,
+            nodeMap,
+            stop: () => { running = false; if (animId) cancelAnimationFrame(animId); }
+        };
+    }
+
+    function highlightHeroGraph(moduleId) {
+        if (!heroGraph) return;
+        heroGraph.nodes.forEach(ne => {
+            const mod = ne.data.moduleId;
+            const isMatch = mod === moduleId;
+            const isRoot = ne.data.type === 'root';
+            if (isMatch || isRoot) {
+                ne.circle.setAttribute('stroke-opacity', '1');
+                ne.circle.setAttribute('fill-opacity', '1');
+                ne.el.style.opacity = '1';
+            } else {
+                ne.circle.setAttribute('stroke-opacity', '0.25');
+                ne.circle.setAttribute('fill-opacity', '0.35');
+                ne.el.style.opacity = '0.4';
+            }
+        });
+        heroGraph.links.forEach(le => {
+            const s = heroGraph.nodeMap[le.source];
+            const t = heroGraph.nodeMap[le.target];
+            const match = (s && s.moduleId === moduleId) || (t && t.moduleId === moduleId) || (s && s.type === 'root') || (t && t.type === 'root');
+            le.el.setAttribute('stroke-opacity', match ? '0.6' : '0.1');
+            le.el.setAttribute('stroke-width', match ? '2.5' : '1');
+        });
+    }
+
+    function resetHeroGraphHighlight() {
+        if (!heroGraph) return;
+        heroGraph.nodes.forEach(ne => {
+            ne.circle.setAttribute('stroke-opacity', '1');
+            ne.circle.setAttribute('fill-opacity', '1');
+            ne.el.style.opacity = '1';
+        });
+        heroGraph.links.forEach(le => {
+            le.el.setAttribute('stroke-opacity', '0.35');
+            le.el.setAttribute('stroke-width', '1.5');
+        });
+    }
+
+    // ========== CRISP-DM Circular SVG Diagram ==========
+    let crispDmDiagram = null;
+
+    function initCrispDmDiagram() {
+        const stage = document.getElementById('crispdmStage');
+        if (!stage) return;
+
+        // Insert SVG before stage-track
+        const track = stage.querySelector('.stage-track');
+        if (!track) return;
+
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('id', 'crispdmSvg');
+        svg.setAttribute('viewBox', '0 0 520 260');
+        svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        svg.style.width = '100%';
+        svg.style.maxWidth = '720px';
+        svg.style.height = 'auto';
+        svg.style.display = 'block';
+        svg.style.margin = '0 auto 40px';
+        stage.insertBefore(svg, track);
+
+        const ns = 'http://www.w3.org/2000/svg';
+        const cx = 260;
+        const cy = 130;
+        const radius = 90;
+        const stages = crispDmData.map((d, i) => ({
+            ...d,
+            index: i,
+            angle: -Math.PI / 2 + (Math.PI * 2 * i) / 6
+        }));
+
+        // Background circle
+        const bgCircle = document.createElementNS(ns, 'circle');
+        bgCircle.setAttribute('cx', cx);
+        bgCircle.setAttribute('cy', cy);
+        bgCircle.setAttribute('r', radius);
+        bgCircle.setAttribute('fill', 'none');
+        bgCircle.setAttribute('stroke', 'rgba(0,0,0,0.08)');
+        bgCircle.setAttribute('stroke-width', '2');
+        svg.appendChild(bgCircle);
+
+        // Path group for highlighted connections
+        const pathGroup = document.createElementNS(ns, 'g');
+        svg.appendChild(pathGroup);
+
+        // Stage nodes
+        const nodeGroup = document.createElementNS(ns, 'g');
+        svg.appendChild(nodeGroup);
+
+        const stageNodes = [];
+
+        stages.forEach((s, i) => {
+            const x = cx + Math.cos(s.angle) * radius;
+            const y = cy + Math.sin(s.angle) * radius;
+
+            const g = document.createElementNS(ns, 'g');
+            g.setAttribute('class', 'crispdm-node');
+            g.setAttribute('data-index', i);
+            g.style.cursor = 'pointer';
+
+            const circle = document.createElementNS(ns, 'circle');
+            circle.setAttribute('cx', x);
+            circle.setAttribute('cy', y);
+            circle.setAttribute('r', 22);
+            circle.setAttribute('fill', '#fff');
+            circle.setAttribute('stroke', 'var(--accent, #0071e3)');
+            circle.setAttribute('stroke-width', '2');
+            circle.setAttribute('class', 'crispdm-node-circle');
+            g.appendChild(circle);
+
+            const numText = document.createElementNS(ns, 'text');
+            numText.setAttribute('x', x);
+            numText.setAttribute('y', y);
+            numText.setAttribute('text-anchor', 'middle');
+            numText.setAttribute('dominant-baseline', 'central');
+            numText.setAttribute('fill', 'var(--accent, #0071e3)');
+            numText.setAttribute('font-size', '12');
+            numText.setAttribute('font-weight', '700');
+            numText.setAttribute('class', 'crispdm-node-text');
+            numText.textContent = String(i + 1).padStart(2, '0');
+            g.appendChild(numText);
+
+            // Label below/above node
+            const labelY = y + (Math.sin(s.angle) > 0 ? 36 : -28);
+            const label = document.createElementNS(ns, 'text');
+            label.setAttribute('x', x);
+            label.setAttribute('y', labelY);
+            label.setAttribute('text-anchor', 'middle');
+            label.setAttribute('dominant-baseline', 'central');
+            label.setAttribute('fill', '#1d1d1f');
+            label.setAttribute('font-size', '12');
+            label.setAttribute('font-weight', '500');
+            label.setAttribute('class', 'crispdm-label');
+            label.textContent = s.title;
+            g.appendChild(label);
+
+            nodeGroup.appendChild(g);
+            stageNodes.push({ el: g, circle, text: numText, label, x, y, angle: s.angle, index: i });
+
+            g.addEventListener('click', () => {
+                setStage(i);
+            });
+        });
+
+        // Arrow path connecting stages
+        const arrowPath = document.createElementNS(ns, 'path');
+        arrowPath.setAttribute('fill', 'none');
+        arrowPath.setAttribute('stroke', 'var(--accent, #0071e3)');
+        arrowPath.setAttribute('stroke-width', '2');
+        arrowPath.setAttribute('stroke-linecap', 'round');
+        arrowPath.setAttribute('stroke-linejoin', 'round');
+        arrowPath.setAttribute('class', 'crispdm-path');
+        pathGroup.appendChild(arrowPath);
+
+        // Highlight path between consecutive active stages
+        function updatePath(activeIndex) {
+            // Build arc path through all stages up to activeIndex
+            let d = '';
+            for (let i = 0; i <= activeIndex; i++) {
+                const n = stageNodes[i];
+                if (i === 0) {
+                    d += `M ${n.x} ${n.y}`;
+                } else {
+                    const prev = stageNodes[i - 1];
+                    // Arc around center
+                    const largeArc = 0;
+                    d += ` A ${radius} ${radius} 0 ${largeArc} 1 ${n.x} ${n.y}`;
+                }
+            }
+            arrowPath.setAttribute('d', d);
+            arrowPath.style.opacity = '1';
+
+            // Update node styles
+            stageNodes.forEach((sn, idx) => {
+                if (idx <= activeIndex) {
+                    sn.circle.setAttribute('fill', 'var(--accent, #0071e3)');
+                    sn.circle.setAttribute('stroke', 'var(--accent, #0071e3)');
+                    sn.text.setAttribute('fill', '#fff');
+                } else {
+                    sn.circle.setAttribute('fill', '#fff');
+                    sn.circle.setAttribute('stroke', 'var(--accent, #0071e3)');
+                    sn.text.setAttribute('fill', 'var(--accent, #0071e3)');
+                }
+            });
+        }
+
+        // Animate path drawing
+        let pathAnim = null;
+        function animatePathTo(index) {
+            if (pathAnim) cancelAnimationFrame(pathAnim);
+            let progress = 0;
+            const totalSteps = index + 1;
+            function step() {
+                progress += 0.06;
+                if (progress >= totalSteps) {
+                    updatePath(index);
+                    return;
+                }
+                const currentIndex = Math.floor(progress);
+                const partial = progress - currentIndex;
+                // Build partial path
+                let d = '';
+                for (let i = 0; i <= currentIndex && i < stageNodes.length; i++) {
+                    const n = stageNodes[i];
+                    if (i === 0) {
+                        d += `M ${n.x} ${n.y}`;
+                    } else {
+                        const prev = stageNodes[i - 1];
+                        d += ` A ${radius} ${radius} 0 0 1 ${n.x} ${n.y}`;
+                    }
+                }
+                if (currentIndex < index && currentIndex + 1 < stageNodes.length) {
+                    const cur = stageNodes[currentIndex];
+                    const next = stageNodes[currentIndex + 1];
+                    const ix = cur.x + (next.x - cur.x) * partial;
+                    const iy = cur.y + (next.y - cur.y) * partial;
+                    // Use small arc approximation for animation
+                    d += ` L ${ix} ${iy}`;
+                }
+                arrowPath.setAttribute('d', d);
+                arrowPath.style.opacity = '1';
+                pathAnim = requestAnimationFrame(step);
+            }
+            step();
+        }
+
+        crispDmDiagram = {
+            update: (index) => animatePathTo(index),
+            nodes: stageNodes
+        };
+    }
+
+    function updateCrispDmDiagram(index) {
+        if (crispDmDiagram) {
+            crispDmDiagram.update(index);
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         setStage(0);
-        loadOutline();
+        renderAll();
         initReveal();
+        initHeroGraph();
+        initCrispDmDiagram();
 
         // 定义 revealed 样式
         const style = document.createElement('style');
