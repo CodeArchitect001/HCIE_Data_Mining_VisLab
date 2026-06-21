@@ -1319,6 +1319,127 @@ a {
     border-color: #ff3b30;
 }
 
+.feature-bins {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* 离群点实验室 */
+.outlier-lab {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    border: 1px solid var(--border);
+}
+
+.outlier-chart {
+    position: relative;
+    min-height: 160px;
+    margin-bottom: 24px;
+}
+
+.outlier-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 20px;
+    background: var(--bg-primary);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+}
+
+.outlier-stats div {
+    color: var(--text-secondary);
+}
+
+.outlier-stats strong {
+    color: var(--text-primary);
+    margin-left: 4px;
+}
+
+.outlier-points {
+    position: relative;
+    height: 120px;
+    background: var(--bg-primary);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    margin: 0 12px;
+}
+
+.outlier-bounds {
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    background: rgba(52, 199, 89, 0.1);
+    border-left: 2px dashed #34c759;
+    border-right: 2px dashed #34c759;
+    border-radius: 4px;
+    z-index: 0;
+}
+
+.outlier-point {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 1;
+    transform: translateX(-50%);
+}
+
+.outlier-point:hover {
+    border-color: var(--accent);
+    transform: translateX(-50%) scale(1.1);
+}
+
+.outlier-point.selected {
+    background: #ff3b30;
+    border-color: #ff3b30;
+    color: #fff;
+}
+
+.outlier-point.correct {
+    background: #34c759;
+    border-color: #34c759;
+    color: #fff;
+}
+
+.outlier-controls {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+@media (max-width: 980px) {
+    .feature-bins {
+        grid-template-columns: 1fr;
+    }
+
+    .outlier-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 720px) {
+    .outlier-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .outlier-point {
+        width: 34px;
+        height: 34px;
+        font-size: 10px;
+    }
+}
+
 /* Footer */
 .footer {
     background: var(--bg-secondary);

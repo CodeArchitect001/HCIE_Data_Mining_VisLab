@@ -1731,6 +1731,290 @@
         initCrispdmOrder();
     }
 
+    function initChapter2Game() {
+        const game = document.getElementById('chapter2Game');
+        if (!game) return;
+
+        const levels = game.querySelectorAll('.level');
+        const progressSteps = game.querySelectorAll('.progress-step');
+        let currentLevel = 1;
+
+        function showLevel(n) {
+            levels.forEach(l => l.classList.remove('active'));
+            progressSteps.forEach(p => {
+                const step = parseInt(p.dataset.step, 10);
+                p.classList.remove('active', 'completed');
+                if (step < n) p.classList.add('completed');
+                if (step === n) p.classList.add('active');
+            });
+            const target = game.querySelector('.level[data-level="' + n + '"]');
+            if (target) target.classList.add('active');
+            currentLevel = n;
+        }
+
+        function bindNext(btnId, nextLevel) {
+            const btn = document.getElementById(btnId);
+            if (btn) btn.addEventListener('click', () => showLevel(nextLevel));
+        }
+
+        bindNext('nextC2Level1', 2);
+        bindNext('nextC2Level2', 3);
+        bindNext('nextC2Level3', 4);
+        bindNext('nextC2Level4', 5);
+
+        const finishBtn = document.getElementById('finishChapter2');
+        if (finishBtn) {
+            finishBtn.addEventListener('click', () => {
+                const fb = document.getElementById('c2level5Feedback');
+                if (fb) {
+                    fb.textContent = '🎉 恭喜完成第二章！你已掌握数据类型、清洗、转换与特征工程。';
+                    fb.classList.add('success');
+                }
+                progressSteps.forEach(p => {
+                    const step = parseInt(p.dataset.step, 10);
+                    if (step === 5) p.classList.add('completed');
+                });
+            });
+        }
+
+        initAttributeSort();
+        initMissingMatch();
+        initOutlierLab();
+        initTransformMatch();
+        initFeatureSort();
+    }
+
+    function genericSortGame(containerId, itemsId, zonesSelector, feedbackId, nextId, resetId, totalItems) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        const items = container.querySelectorAll(itemsId ? '#' + itemsId + ' .sort-card' : '.sort-card');
+        const zones = container.querySelectorAll(zonesSelector);
+        let correctCount = 0;
+        let dragged = null;
+
+        items.forEach(item => {
+            item.addEventListener('dragstart', e => {
+                dragged = item;
+                item.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', item.dataset.bin);
+            });
+            item.addEventListener('dragend', () => {
+                item.classList.remove('dragging');
+                dragged = null;
+            });
+        });
+
+        zones.forEach(zone => {
+            zone.addEventListener('dragover', e => {
+                e.preventDefault();
+                zone.classList.add('drag-over');
+            });
+            zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                zone.classList.remove('drag-over');
+                if (!dragged) return;
+                const bin = zone.closest('.sort-bin').dataset.bin;
+                const fb = document.getElementById(feedbackId);
+                if (dragged.dataset.bin === bin) {
+                    if (!dragged.classList.contains('in-bin')) correctCount++;
+                    dragged.classList.add('in-bin');
+                    dragged.setAttribute('draggable', 'false');
+                    zone.classList.add('correct');
+                    zone.appendChild(dragged);
+                    fb.textContent = '分类正确！';
+                    fb.className = 'level-feedback success';
+                    if (correctCount === totalItems) {
+                        document.getElementById(nextId).disabled = false;
+                        fb.textContent = '🎉 全部正确！';
+                    }
+                } else {
+                    fb.textContent = '放错篮子了，再看看这个概念的归属。';
+                    fb.className = 'level-feedback error';
+                }
+            });
+        });
+
+        document.getElementById(resetId).addEventListener('click', () => {
+            const pool = itemsId ? document.getElementById(itemsId) : container.querySelector('.sort-items');
+            items.forEach(i => {
+                i.classList.remove('in-bin');
+                i.setAttribute('draggable', 'true');
+                pool.appendChild(i);
+            });
+            zones.forEach(z => z.classList.remove('correct'));
+            correctCount = 0;
+            const fb = document.getElementById(feedbackId);
+            fb.textContent = '';
+            fb.className = 'level-feedback';
+            document.getElementById(nextId).disabled = true;
+        });
+    }
+
+    function genericMatchGame(containerId, feedbackId, nextId, resetId, totalCards) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        const cards = container.querySelectorAll('.match-card');
+        const slots = container.querySelectorAll('.match-slot');
+        let matchedCount = 0;
+        let dragged = null;
+
+        cards.forEach(card => {
+            card.addEventListener('dragstart', e => {
+                dragged = card;
+                card.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', card.dataset.match);
+            });
+            card.addEventListener('dragend', () => {
+                card.classList.remove('dragging');
+                dragged = null;
+            });
+        });
+
+        slots.forEach(slot => {
+            slot.addEventListener('dragover', e => {
+                e.preventDefault();
+                slot.classList.add('drag-over');
+            });
+            slot.addEventListener('dragleave', () => slot.classList.remove('drag-over'));
+            slot.addEventListener('drop', e => {
+                e.preventDefault();
+                slot.classList.remove('drag-over');
+                if (!dragged) return;
+                const fb = document.getElementById(feedbackId);
+                if (dragged.dataset.match === slot.dataset.accept && !slot.classList.contains('correct')) {
+                    dragged.classList.add('matched');
+                    dragged.setAttribute('draggable', 'false');
+                    slot.classList.add('correct');
+                    slot.appendChild(dragged);
+                    matchedCount++;
+                    fb.textContent = '匹配正确！';
+                    fb.className = 'level-feedback success';
+                    if (matchedCount === totalCards) {
+                        document.getElementById(nextId).disabled = false;
+                        fb.textContent = '🎉 全部匹配正确！';
+                    }
+                } else if (!slot.classList.contains('correct')) {
+                    fb.textContent = '这个场景更适合其他方法，再试试看。';
+                    fb.className = 'level-feedback error';
+                }
+            });
+        });
+
+        document.getElementById(resetId).addEventListener('click', () => {
+            const sources = container.querySelector('.match-sources');
+            cards.forEach(c => {
+                c.classList.remove('matched');
+                c.setAttribute('draggable', 'true');
+                sources.appendChild(c);
+            });
+            slots.forEach(s => s.classList.remove('correct'));
+            matchedCount = 0;
+            const fb = document.getElementById(feedbackId);
+            fb.textContent = '';
+            fb.className = 'level-feedback';
+            document.getElementById(nextId).disabled = true;
+        });
+    }
+
+    function initAttributeSort() {
+        genericSortGame('attributeSort', 'attributeItems', '.bin-dropzone', 'c2level1Feedback', 'nextC2Level1', 'resetC2Level1', 8);
+    }
+
+    function initMissingMatch() {
+        genericMatchGame('missingMatch', 'c2level2Feedback', 'nextC2Level2', 'resetC2Level2', 6);
+    }
+
+    function initTransformMatch() {
+        genericMatchGame('transformMatch', 'c2level4Feedback', 'nextC2Level4', 'resetC2Level4', 6);
+    }
+
+    function initFeatureSort() {
+        genericSortGame('featureSort', 'featureItems', '.bin-dropzone', 'c2level5Feedback', 'finishChapter2', 'resetC2Level5', 7);
+    }
+
+    function initOutlierLab() {
+        const lab = document.getElementById('outlierLab');
+        if (!lab) return;
+
+        const data = [12, 15, 14, 13, 15, 16, 14, 100, 15, 13, 14, 110];
+        const sorted = [...data].sort((a, b) => a - b);
+        const q1 = 13.25;
+        const q3 = 16.75;
+        const iqr = q3 - q1;
+        const lower = q1 - 1.5 * iqr;
+        const upper = q3 + 1.5 * iqr;
+        const outliers = new Set(data.map((v, i) => (v < lower || v > upper) ? i : -1).filter(i => i !== -1));
+
+        const pointsContainer = document.getElementById('outlierPoints');
+        const feedback = document.getElementById('c2level3Feedback');
+        const nextBtn = document.getElementById('nextC2Level3');
+        const resetBtn = document.getElementById('resetC2Level3');
+        let selected = new Set();
+
+        function renderPoints() {
+            pointsContainer.innerHTML = '';
+            const max = Math.max(...data);
+            const min = Math.min(...data);
+            const range = max - min || 1;
+            data.forEach((value, index) => {
+                const point = document.createElement('div');
+                point.className = 'outlier-point';
+                point.textContent = value;
+                point.title = value;
+                const left = ((value - min) / range) * 90 + 5;
+                point.style.left = left + '%';
+                point.style.top = (30 + (index % 3) * 30) + 'px';
+                point.dataset.index = index;
+                point.addEventListener('click', () => togglePoint(index, point));
+                pointsContainer.appendChild(point);
+            });
+
+            // Draw bounds
+            const bounds = document.createElement('div');
+            bounds.className = 'outlier-bounds';
+            const lowerPct = ((lower - min) / range) * 90 + 5;
+            const upperPct = ((upper - min) / range) * 90 + 5;
+            bounds.style.left = lowerPct + '%';
+            bounds.style.width = (upperPct - lowerPct) + '%';
+            pointsContainer.appendChild(bounds);
+        }
+
+        function togglePoint(index, el) {
+            if (selected.has(index)) {
+                selected.delete(index);
+                el.classList.remove('selected');
+            } else {
+                selected.add(index);
+                el.classList.add('selected');
+            }
+            checkOutliers();
+        }
+
+        function checkOutliers() {
+            const isCorrect = selected.size === outliers.size && [...selected].every(i => outliers.has(i));
+            if (isCorrect) {
+                feedback.textContent = '🎉 正确找出了所有离群点！100 和 110 明显超出 IQR 上下界。';
+                feedback.className = 'level-feedback success';
+                nextBtn.disabled = false;
+            } else {
+                feedback.textContent = selected.size > 0 ? '再看看，离群点是超出上下界的异常值。' : '';
+                feedback.className = 'level-feedback';
+                nextBtn.disabled = true;
+            }
+        }
+
+        resetBtn.addEventListener('click', () => {
+            selected.clear();
+            renderPoints();
+            feedback.textContent = '';
+            feedback.className = 'level-feedback';
+            nextBtn.disabled = true;
+        });
+
+        renderPoints();
+    }
+
     function initConceptMap() {
         const svg = document.getElementById('conceptMapSvg');
         if (!svg) return;
@@ -2112,6 +2396,7 @@
         initHeroGraph();
         initCrispDmDiagram();
         initChapter1Game();
+        initChapter2Game();
 
         // 定义 revealed 样式
         const style = document.createElement('style');

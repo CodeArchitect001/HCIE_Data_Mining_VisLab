@@ -24,6 +24,7 @@
                 <a href="#crispdm" class="nav-link">CRISP-DM</a>
                 <a href="#preprocessing" class="nav-link">预处理</a>
                 <a href="#modeling" class="nav-link">建模</a>
+                <a href="#chapter2" class="nav-link">第二章</a>
                 <a href="#clustering" class="nav-link">聚类降维</a>
                 <a href="#association" class="nav-link">关联推荐</a>
                 <a href="#evaluation" class="nav-link">评估优化</a>
@@ -237,6 +238,225 @@
                         <div class="level-actions">
                             <button class="btn btn-secondary" id="resetLevel4">重置</button>
                             <button class="btn btn-primary" id="finishChapter1">完成第一章</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第二章：数据预处理工坊 -->
+        <section class="section chapter2" id="chapter2">
+            <div class="container">
+                <header class="section-header">
+                    <p class="eyebrow">第二章 · 数据预处理与特征工程</p>
+                    <h2 class="section-title">数据预处理工坊</h2>
+                    <p class="section-desc">通过五个互动关卡，掌握从原始数据到建模数据的完整预处理链路。</p>
+                </header>
+
+                <div class="game-frame" id="chapter2Game">
+                    <div class="game-progress">
+                        <div class="progress-step active" data-step="1">
+                            <span class="progress-num">1</span>
+                            <span class="progress-label">属性分类</span>
+                        </div>
+                        <div class="progress-step" data-step="2">
+                            <span class="progress-num">2</span>
+                            <span class="progress-label">缺失值诊所</span>
+                        </div>
+                        <div class="progress-step" data-step="3">
+                            <span class="progress-num">3</span>
+                            <span class="progress-label">离群点猎人</span>
+                        </div>
+                        <div class="progress-step" data-step="4">
+                            <span class="progress-num">4</span>
+                            <span class="progress-label">转换实验室</span>
+                        </div>
+                        <div class="progress-step" data-step="5">
+                            <span class="progress-num">5</span>
+                            <span class="progress-label">特征选拔赛</span>
+                        </div>
+                    </div>
+
+                    <!-- 关卡 1：属性分类 -->
+                    <div class="level active" data-level="1">
+                        <div class="level-intro">
+                            <h3>属性类型分类</h3>
+                            <p>把下方的数据属性实例拖进正确的属性类型篮子。四类属性互斥且穷尽（MECE）。</p>
+                        </div>
+                        <div class="sorting-game" id="attributeSort">
+                            <div class="sort-bins">
+                                <div class="sort-bin" data-bin="nominal">
+                                    <h4>标称属性</h4>
+                                    <p>名称标签，无顺序</p>
+                                    <div class="bin-dropzone"></div>
+                                </div>
+                                <div class="sort-bin" data-bin="binary">
+                                    <h4>二元属性</h4>
+                                    <p>只有两个状态</p>
+                                    <div class="bin-dropzone"></div>
+                                </div>
+                                <div class="sort-bin" data-bin="ordinal">
+                                    <h4>序数属性</h4>
+                                    <p>有顺序，差值无意义</p>
+                                    <div class="bin-dropzone"></div>
+                                </div>
+                                <div class="sort-bin" data-bin="numeric">
+                                    <h4>数值属性</h4>
+                                    <p>可度量定量值</p>
+                                    <div class="bin-dropzone"></div>
+                                </div>
+                            </div>
+                            <div class="sort-items" id="attributeItems">
+                                <div class="sort-card" draggable="true" data-bin="nominal">颜色 {红, 绿, 蓝}</div>
+                                <div class="sort-card" draggable="true" data-bin="nominal">邮政编码</div>
+                                <div class="sort-card" draggable="true" data-bin="binary">性别 {男, 女}</div>
+                                <div class="sort-card" draggable="true" data-bin="binary">是否吸烟 {是, 否}</div>
+                                <div class="sort-card" draggable="true" data-bin="ordinal">成绩等级 {A, B, C}</div>
+                                <div class="sort-card" draggable="true" data-bin="ordinal">满意度 {高, 中, 低}</div>
+                                <div class="sort-card" draggable="true" data-bin="numeric">温度 23.5°C</div>
+                                <div class="sort-card" draggable="true" data-bin="numeric">年收入 120000</div>
+                            </div>
+                        </div>
+                        <div class="level-feedback" id="c2level1Feedback"></div>
+                        <div class="level-actions">
+                            <button class="btn btn-secondary" id="resetC2Level1">重置</button>
+                            <button class="btn btn-primary" id="nextC2Level1" disabled>下一关</button>
+                        </div>
+                    </div>
+
+                    <!-- 关卡 2：缺失值诊所 -->
+                    <div class="level" data-level="2">
+                        <div class="level-intro">
+                            <h3>缺失值诊所</h3>
+                            <p>每个病人（数据场景）该用什么处方？把场景拖到合适的处理策略上。</p>
+                        </div>
+                        <div class="matching-game" id="missingMatch">
+                            <div class="match-sources">
+                                <h4>数据场景</h4>
+                                <div class="match-card" draggable="true" data-match="delete">缺失比例超过 50% 的特征</div>
+                                <div class="match-card" draggable="true" data-match="mode">类别型特征少量缺失</div>
+                                <div class="match-card" draggable="true" data-match="mean">数值型，近似正态分布</div>
+                                <div class="match-card" draggable="true" data-match="median">数值型，存在偏态或离群点</div>
+                                <div class="match-card" draggable="true" data-match="knn">特征间存在相关性</div>
+                                <div class="match-card" draggable="true" data-match="model">使用 XGBoost 建模</div>
+                            </div>
+                            <div class="match-targets">
+                                <h4>处理策略</h4>
+                                <div class="match-slot" data-accept="delete">删除法<br><small>删除行或列</small></div>
+                                <div class="match-slot" data-accept="mean">均值填充<br><small>保持均值不变</small></div>
+                                <div class="match-slot" data-accept="median">中位数填充<br><small>抗离群点影响</small></div>
+                                <div class="match-slot" data-accept="mode">众数填充<br><small>保持最频繁类别</small></div>
+                                <div class="match-slot" data-accept="knn">KNN 填充<br><small>利用特征关系</small></div>
+                                <div class="match-slot" data-accept="model">不处理<br><small>算法内置缺失处理</small></div>
+                            </div>
+                        </div>
+                        <div class="level-feedback" id="c2level2Feedback"></div>
+                        <div class="level-actions">
+                            <button class="btn btn-secondary" id="resetC2Level2">重置</button>
+                            <button class="btn btn-primary" id="nextC2Level2" disabled>下一关</button>
+                        </div>
+                    </div>
+
+                    <!-- 关卡 3：离群点猎人 -->
+                    <div class="level" data-level="3">
+                        <div class="level-intro">
+                            <h3>离群点猎人</h3>
+                            <p>下方是一个简单的数值序列。用 IQR 箱型图规则找出离群点：点击你认为异常的点。</p>
+                        </div>
+                        <div class="outlier-lab" id="outlierLab">
+                            <div class="outlier-chart" id="outlierChart">
+                                <div class="outlier-stats" id="outlierStats">
+                                    <div>数据: <span id="dataValues">12, 15, 14, 13, 15, 16, 14, 100, 15, 13, 14, 110</span></div>
+                                    <div>Q1: <strong id="q1Value">13.25</strong></div>
+                                    <div>Q3: <strong id="q3Value">16.75</strong></div>
+                                    <div>IQR: <strong id="iqrValue">3.5</strong></div>
+                                    <div>下界: <strong id="lowerBound">8</strong></div>
+                                    <div>上界: <strong id="upperBound">22</strong></div>
+                                </div>
+                                <div class="outlier-points" id="outlierPoints"></div>
+                            </div>
+                            <div class="outlier-controls">
+                                <p>提示：超出 [Q1 - 1.5×IQR, Q3 + 1.5×IQR] 范围的点为离群点。</p>
+                            </div>
+                        </div>
+                        <div class="level-feedback" id="c2level3Feedback"></div>
+                        <div class="level-actions">
+                            <button class="btn btn-secondary" id="resetC2Level3">重置</button>
+                            <button class="btn btn-primary" id="nextC2Level3" disabled>下一关</button>
+                        </div>
+                    </div>
+
+                    <!-- 关卡 4：转换实验室 -->
+                    <div class="level" data-level="4">
+                        <div class="level-intro">
+                            <h3>转换实验室</h3>
+                            <p>把数据转换任务拖到正确的工具/方法上。区分缩放、离散化、编码与偏态处理。</p>
+                        </div>
+                        <div class="matching-game" id="transformMatch">
+                            <div class="match-sources">
+                                <h4>转换任务</h4>
+                                <div class="match-card" draggable="true" data-match="zscore">特征近似正态，用于 KNN/SVM</div>
+                                <div class="match-card" draggable="true" data-match="minmax">需要固定到 [0, 1] 范围</div>
+                                <div class="match-card" draggable="true" data-match="onehot">标称属性，类别无顺序</div>
+                                <div class="match-card" draggable="true" data-match="label">序数属性，类别有顺序</div>
+                                <div class="match-card" draggable="true" data-match="binning">将连续年龄分为青年/中年/老年</div>
+                                <div class="match-card" draggable="true" data-match="log">收入数据右偏严重</div>
+                            </div>
+                            <div class="match-targets">
+                                <h4>转换方法</h4>
+                                <div class="match-slot" data-accept="zscore">Z-score 标准化<br><small>均值0，标准差1</small></div>
+                                <div class="match-slot" data-accept="minmax">Min-Max 归一化<br><small>固定范围 [0,1]</small></div>
+                                <div class="match-slot" data-accept="onehot">One-Hot 编码<br><small>标称属性</small></div>
+                                <div class="match-slot" data-accept="label">Label 编码<br><small>序数属性</small></div>
+                                <div class="match-slot" data-accept="binning">离散化 / 分箱<br><small>连续转离散</small></div>
+                                <div class="match-slot" data-accept="log">对数变换<br><small>降低右偏</small></div>
+                            </div>
+                        </div>
+                        <div class="level-feedback" id="c2level4Feedback"></div>
+                        <div class="level-actions">
+                            <button class="btn btn-secondary" id="resetC2Level4">重置</button>
+                            <button class="btn btn-primary" id="nextC2Level4" disabled>下一关</button>
+                        </div>
+                    </div>
+
+                    <!-- 关卡 5：特征选拔赛 -->
+                    <div class="level" data-level="5">
+                        <div class="level-intro">
+                            <h3>特征选拔赛</h3>
+                            <p>把特征选择方法拖到正确的范式篮子中：Filter / Wrapper / Embedded。</p>
+                        </div>
+                        <div class="sorting-game" id="featureSort">
+                            <div class="sort-bins feature-bins">
+                                <div class="sort-bin" data-bin="filter">
+                                    <h4>Filter 过滤法</h4>
+                                    <p>基于统计度量，独立于模型</p>
+                                    <div class="bin-dropzone"></div>
+                                </div>
+                                <div class="sort-bin" data-bin="wrapper">
+                                    <h4>Wrapper 包装法</h4>
+                                    <p>基于模型性能迭代选择</p>
+                                    <div class="bin-dropzone"></div>
+                                </div>
+                                <div class="sort-bin" data-bin="embedded">
+                                    <h4>Embedded 嵌入法</h4>
+                                    <p>在模型训练中自动选择</p>
+                                    <div class="bin-dropzone"></div>
+                                </div>
+                            </div>
+                            <div class="sort-items" id="featureItems">
+                                <div class="sort-card" draggable="true" data-bin="filter">方差选择法</div>
+                                <div class="sort-card" draggable="true" data-bin="filter">卡方检验</div>
+                                <div class="sort-card" draggable="true" data-bin="filter">互信息法</div>
+                                <div class="sort-card" draggable="true" data-bin="wrapper">RFE 递归特征消除</div>
+                                <div class="sort-card" draggable="true" data-bin="wrapper">前向选择</div>
+                                <div class="sort-card" draggable="true" data-bin="embedded">L1 正则化 (Lasso)</div>
+                                <div class="sort-card" draggable="true" data-bin="embedded">随机森林特征重要性</div>
+                            </div>
+                        </div>
+                        <div class="level-feedback" id="c2level5Feedback"></div>
+                        <div class="level-actions">
+                            <button class="btn btn-secondary" id="resetC2Level5">重置</button>
+                            <button class="btn btn-primary" id="finishChapter2">完成第二章</button>
                         </div>
                     </div>
                 </div>
